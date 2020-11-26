@@ -11,7 +11,7 @@ export default function SubjectButton({reached, needed, title, count}) {
                 </View>
                 <View style={styles.titleView}> 
                     <Text style={styles.bigText}>{title}</Text>
-                    <Text style={styles.smallText}>{count} Übung{parseInt(count) === 1 ? "" : "en"}</Text>
+                    <Text style={styles.smallText}>{parseInt(count) === 1 ? "Eine Übung" : count + " Übungen"}</Text>
                 </View>
             </View>
         </TouchableHighlight>
@@ -21,8 +21,9 @@ export default function SubjectButton({reached, needed, title, count}) {
   const styles = StyleSheet.create({
     container: {
       borderWidth: 1,
-      margin: 5,
-      marginBottom: 0,
+      margin: 6,
+      marginBottom: 3,
+      marginTop: 3,
       padding: 5,
       flexDirection: "row",
       borderColor: '#5C5C5C',
@@ -34,7 +35,7 @@ export default function SubjectButton({reached, needed, title, count}) {
         borderColor: "#5C5C5C"
      },
      bigText: {
-         fontSize: 23
+         fontSize: 25
      },
      smallText: {
          color: "#7D7D7D"

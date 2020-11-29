@@ -3,7 +3,7 @@ import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Button, StatusBar, Platform, TouchableHighlight, Modal, Alert, TextInput } from 'react-native';
 import SubjectButton from './Components/SubjectButton';
-import { initialize } from './Utils/FileManagement';
+import { initialize, titleExists } from './Utils/FileManagement';
 
 export default function App() {
   useEffect(() => {
@@ -12,15 +12,40 @@ export default function App() {
 
   const newSubjectPress = () => {
     setModalVisible(!modalVisible);
+  };
+
+  const validateTitle = (text) => {
+    if(titleExists(text.trim())) {
+      setTitleError("Titel ist bereits vergeben!");
+    } else {
+      setTitleError("");
+    }
   }
 
-  const testFun = () => {
-    let x = {XD: "lol", XDDD: []}
-    x["xsasada"] = "dota 2";
-    console.log(x);
+  const validateProzent = (text) => {
+    let p = parseInt(text);
+    if(p <= 0) {
+      setProzentError("Angabe muss größer als 0 sein!");
+    } else if(p >= 100) {
+      setProzentError("Prozent muss kleiner als 100 sein!");
+    } else {
+      setProzentError("");
+    }
+  }
+
+  const validateAnzahl = (text) => {
+    let p = parseInt(text);
+    if(p <= 0) {
+      setAnzahlError("Angabe muss größer als 0 sein!");
+    } else {
+      setAnzahlError("");
+    }
   }
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [titleError, setTitleError] = useState("");
+  const [prozentError, setProzentError] = useState("");
+  const [anzahlError, setAnzahlError] = useState("");
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,15 +57,18 @@ export default function App() {
           <Text style={styles.modalHeader}>Neues Fach</Text>
           <View style={styles.modalSection}>
             <Text style={styles.modalText}>Titel</Text>
-            <TextInput style={styles.modalInput} onChangeText={() => {}} />
+            <TextInput style={styles.modalInput} onChangeText={(t) => {validateTitle(t)}}/>
+            <Text style={styles.modalError}>{titleError}</Text>
           </View>
           <View style={styles.modalSection}>
             <Text style={styles.modalText}>Benötigte Prozent</Text>
-            <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={() => {}} />
+            <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {validateProzent(t)}} />
+            <Text style={styles.modalError}>{prozentError}</Text>
           </View>
           <View style={styles.modalSection}>
             <Text style={styles.modalText}>Anzahl der Übungen</Text>
-            <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={() => {}} />
+            <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {validateAnzahl(t)}} />
+            <Text style={styles.modalError}>{anzahlError}</Text>
           </View>
           <View style={styles.modalButtonView}>
             <Button onPress={() => setModalVisible(!modalVisible)} title="Schließen" color="red"></Button>
@@ -92,12 +120,11 @@ const styles = StyleSheet.create({
      margin: 20,
      marginTop: 0,
      padding: 20,
-     borderRadius: 5,
      justifyContent: "space-between",
      flexDirection: "column",
-     backgroundColor: "rgba(200,200,200, 0.98)",
+     backgroundColor: "rgba(200,200,200, 0.95)",
      borderWidth: 1,
-     borderColor: "#32CD32"
+     borderColor: "black"
    },
    modalButtonView: {
      flexDirection: "row",
@@ -123,5 +150,9 @@ const styles = StyleSheet.create({
      color: "black",
      fontSize: 20,
      marginBottom: 5
+   },
+   modalError: {
+     color: "red",
+     fontSize: 16
    }
 });

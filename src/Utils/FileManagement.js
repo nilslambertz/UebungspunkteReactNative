@@ -5,8 +5,9 @@ const configFile = dir + "config.json";
 const subjectFile = dir + "subjects.json";
 
 const initialConfig = {"idCount": 0};
+const initialSubjects = {};
 
-let config = "XD";
+let config;
 let subjects;
 
 function readFile(filename) {
@@ -18,10 +19,13 @@ function writeFile(filename, jsonContent) {
 }
 
 export function initialize() {
-    let x = load(configFile, "config", initialConfig);
-    x.then((c) => {
-        config = c;
-    }).catch(err => console.log(err));
+    if(config === undefined || subjects === undefined) {
+        console.log("Loading files...");
+        load(configFile, "config", initialConfig).then((c) => {config = c;}).catch(err => console.log(err));
+        load(subjectFile, "subjects", initialSubjects).then((c) => {subjects = c;}).catch(err => console.log(err));
+    } else {
+        console.log("Already loaded.");
+    }
 }
 
 function load(file, title, defaultContent) {
@@ -31,6 +35,7 @@ function load(file, title, defaultContent) {
                 let p = readFile(file);
                 p.then((c) => {
                     resolve(JSON.parse(c));
+                    console.log("Loaded " + title + " successfully");
                 }).catch(() => {
                     reject("Error while reading " + title + ". Path: " + file);
                 })
@@ -44,4 +49,14 @@ function load(file, title, defaultContent) {
             }
         })
     });
+}
+
+export function titleExists(t) {
+    t = t.trim().toLowerCase();
+    for(let x in subjects) {
+        if(x.toLowerCase() === t) {
+            return true;
+        }
+    }
+    return false;
 }

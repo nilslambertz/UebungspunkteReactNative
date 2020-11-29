@@ -1,4 +1,3 @@
-import { readDirectoryAsync } from 'expo-file-system';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Button, StatusBar, Platform, TouchableHighlight, Modal, Alert, TextInput } from 'react-native';

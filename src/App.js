@@ -10,6 +10,7 @@ class App extends Component {
     this.state = {
       modalVisible: false,
       newTitle: "",
+      subjects: undefined,
       newProzent: 0,
       newAnzahl: 0,
       titleError: "",
@@ -17,7 +18,14 @@ class App extends Component {
       anzahlError: ""
     };
     console.log("Initializing app...");
-    initialize();
+    let p = initialize();
+    p.then((c) => {
+      this.setState({subjects: c.subjects});
+      this.createSubjectList();
+    })
+  }
+
+  createSubjectList = () => {
   }
 
   resetErrors = () => {

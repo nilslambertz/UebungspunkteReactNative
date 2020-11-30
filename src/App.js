@@ -1,77 +1,130 @@
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Button, StatusBar, Platform, TouchableHighlight, Modal, Alert, TextInput } from 'react-native';
 import SubjectButton from './Components/SubjectButton';
-import { initialize, titleExists } from './Utils/FileManagement';
+import { addSubject, initialize, titleExists } from './Utils/FileManagement';
 
-export default function App() {
-  useEffect(() => {
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+      newTitle: "",
+      newProzent: 0,
+      newAnzahl: 0,
+      titleError: "",
+      prozentError: "",
+      anzahlError: ""
+    };
+    console.log("Initializing app...");
     initialize();
-  });
+  }
 
-  const newSubjectPress = () => {
-    setModalVisible(!modalVisible);
+  resetErrors = () => {
+    this.setState({titleError: ""});
+    this.setState({prozentError: ""});
+    this.setState({anzahlError: ""});
+  }
+
+  createNewSubject = () => {
+    if(this.state.newTitle.trim() === "" || this.state.newTitle === undefined) {
+      alert("Titel darf nicht leer sein!");
+      return;
+    } else if(this.state.newProzent === undefined) {
+      alert("Prozent darf nicht leer sein!");
+      return;
+    } else if(this.state.newAnzahl === undefined) {
+      alert("Anzahl darf nicht leer sein!");
+      return;
+    }
+
+    if(this.state.titleError) {
+      alert(this.state.titleError);
+      return;
+    } else if(this.state.prozentError) {
+      alert(this.state.prozentError);
+      return;
+    } else if(this.state.anzahlError) {
+      alert(this.state.anzahlError);
+      return;
+    }
+
+    let p = addSubject(this.state.newTitle, this.state.newProzent, this.state.newAnzahl);
+    p.then((c) => {
+      this.setState({modalVisible: false});
+      console.log(c);
+    }).catch((err) => {
+      alert("Fehler beim Hinzufügen des Fachs!");
+    });
+  }
+
+  newSubjectPress = () => {
+    this.setState({modalVisible: true});
   };
 
-  const validateTitle = (text) => {
-    if(titleExists(text.trim())) {
-      setTitleError("Titel ist bereits vergeben!");
+  validateTitle = (text) => {
+    if(titleExists(text)) {
+      this.setState({titleError: "Titel ist bereits vergeben!"});
     } else {
-      setTitleError("");
+      this.setState({titleError: ""});
+      this.setState({newTitle: text.trim()});
     }
   }
 
-  const validateProzent = (text) => {
+  validateProzent = (text) => {
     let p = parseInt(text);
     if(p <= 0) {
-      setProzentError("Angabe muss größer als 0 sein!");
+      this.setState({prozentError: "Angabe muss größer als 0 sein!"});
     } else if(p >= 100) {
-      setProzentError("Prozent muss kleiner als 100 sein!");
+      this.setState({prozentError: "Prozent muss kleiner als 100 sein!"});
     } else {
-      setProzentError("");
+      this.setState({prozentError: ""});
+      this.setState({newProzent: p});
     }
   }
 
-  const validateAnzahl = (text) => {
+  validateAnzahl = (text) => {
     let p = parseInt(text);
     if(p <= 0) {
-      setAnzahlError("Angabe muss größer als 0 sein!");
+      this.setState({anzahlError: "Angabe muss größer als 0 sein!"});
     } else {
-      setAnzahlError("");
+      this.setState({anzahlError: ""});
+      this.setState({newAnzahl: p});
     }
   }
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [titleError, setTitleError] = useState("");
-  const [prozentError, setProzentError] = useState("");
-  const [anzahlError, setAnzahlError] = useState("");
-
+  render() {
   return (
     <SafeAreaView style={styles.container}>
       <ExpoStatusBar style="auto" />
-      <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      }}>
+      <Modal animationType="slide" transparent={true} visible={this.state.modalVisible} onRequestClose={() => {
+         this.setState({modalVisible: false});
+         this.resetErrors();
+      }
+      }>
         <View style={styles.outerModal}>
           <Text style={styles.modalHeader}>Neues Fach</Text>
           <View style={styles.modalSection}>
             <Text style={styles.modalText}>Titel</Text>
-            <TextInput style={styles.modalInput} onChangeText={(t) => {validateTitle(t)}}/>
-            <Text style={styles.modalError}>{titleError}</Text>
+            <TextInput style={styles.modalInput} onChangeText={(t) => {this.validateTitle(t)}}/>
+            <Text style={styles.modalError}>{this.state.titleError}</Text>
           </View>
           <View style={styles.modalSection}>
             <Text style={styles.modalText}>Benötigte Prozent</Text>
-            <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {validateProzent(t)}} />
-            <Text style={styles.modalError}>{prozentError}</Text>
+            <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {this.validateProzent(t)}} />
+            <Text style={styles.modalError}>{this.state.prozentError}</Text>
           </View>
           <View style={styles.modalSection}>
             <Text style={styles.modalText}>Anzahl der Übungen</Text>
-            <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {validateAnzahl(t)}} />
-            <Text style={styles.modalError}>{anzahlError}</Text>
+            <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {this.validateAnzahl(t)}} />
+            <Text style={styles.modalError}>{this.state.anzahlError}</Text>
           </View>
           <View style={styles.modalButtonView}>
-            <Button onPress={() => setModalVisible(!modalVisible)} title="Schließen" color="red"></Button>
-            <Button title="Speichern" onPress={() => testFun()}></Button>
+            <Button onPress={() => {
+              this.setState({modalVisible: false});
+              this.resetErrors();
+            }} title="Schließen" color="red"></Button>
+            <Button title="Speichern" onPress={() => this.createNewSubject()}></Button>
           </View>
         </View>
       </Modal>
@@ -81,14 +134,17 @@ export default function App() {
         <SubjectButton reached="60" needed="30" title="Diskrete Strukturen" count="1"></SubjectButton>
         <SubjectButton reached="60" needed="30" title="Diskrete Strukturen" count="1"></SubjectButton>
       </ScrollView>
-      <TouchableHighlight style={styles.newSubjectButton} onPress={newSubjectPress}>
+      <TouchableHighlight style={styles.newSubjectButton} onPress={this.newSubjectPress}>
         <View>
           <Text style={styles.newSubjectButtonText}>Neues Fach</Text>
         </View>
       </TouchableHighlight>
     </SafeAreaView>
   );
+    }
 }
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {

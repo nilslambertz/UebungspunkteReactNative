@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
-export default function SubjectButton({reached, needed, title, count}) {
+export default function SubjectButton({subject}) {
+    let needed = subject.needed;
+    let exercises = subject.exercises;
+    let title = subject.title;
+    let count = exercises.length;
+    let reached = 20;
+
     return (
         <TouchableHighlight>
             <View style={styles.container}>

@@ -26,10 +26,29 @@ function resetAll() {
 export function initialize() {
     if(config === undefined || subjects === undefined) {
         console.log("Loading files...");
-        load(configFile, "config", initialConfig).then((c) => {config = c;}).catch(err => console.log(err));
-        load(subjectFile, "subjects", initialSubjects).then((c) => {subjects = c; console.log(subjects)}).catch(err => console.log(err));
+        let configLoad = load(configFile, "config", initialConfig);
+        let subjectLoad = load(subjectFile, "subjects", initialSubjects);
+
+        return new Promise((resolve, reject) => {
+            configLoad.then((con) => {
+                config = con;
+                subjectLoad.then((sub) => {
+                    subjects = sub;
+                    resolve({
+                        config,
+                        subjects
+                    });
+                }).catch(err => {console.log(err); reject(err)});
+            }).catch(err => {console.log(err); reject(err)});
+        });
     } else {
         console.log("Already loaded.");
+        return new Promise((resolve, reject) => {
+            resolve({
+                config,
+                subjects
+            });
+        });
     }
 }
 
@@ -79,7 +98,8 @@ export function addSubject(newTitle, newProzent, newAnzahl) {
         subjects[newId] = {
             title: newTitle,
             needed: newProzent,
-            number: newAnzahl 
+            number: newAnzahl,
+            exercises: []
         };
         let p = writeFile(subjectFile, subjects);
         p.then((c) => {

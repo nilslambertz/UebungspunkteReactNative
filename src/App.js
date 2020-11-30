@@ -10,7 +10,7 @@ class App extends Component {
     this.state = {
       modalVisible: false,
       newTitle: "",
-      subjects: undefined,
+      subjects: {},
       newProzent: 0,
       newAnzahl: 0,
       titleError: "",
@@ -21,11 +21,14 @@ class App extends Component {
     let p = initialize();
     p.then((c) => {
       this.setState({subjects: c.subjects});
-      this.createSubjectList();
     })
   }
 
-  createSubjectList = () => {
+  printSubjectList = () => {
+    let subjects = this.state.subjects;
+    return Object.keys(subjects).map(function(c, i) {
+      return <SubjectButton key={c} subject={subjects[c]}></SubjectButton>
+    })
   }
 
   resetErrors = () => {
@@ -138,9 +141,7 @@ class App extends Component {
       </Modal>
 
       <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-        <SubjectButton reached="20" needed="40" title="Mathematik" count="3"></SubjectButton>
-        <SubjectButton reached="60" needed="30" title="Diskrete Strukturen" count="1"></SubjectButton>
-        <SubjectButton reached="60" needed="30" title="Diskrete Strukturen" count="1"></SubjectButton>
+        {this.printSubjectList()}
       </ScrollView>
       <TouchableHighlight style={styles.newSubjectButton} onPress={this.newSubjectPress}>
         <View>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
-export default function SubjectButton({subject}) {
+export default function SubjectButton({subject, id, deleteAlert}) {
     let needed = subject.needed;
     let exercises = subject.exercises;
     let title = subject.title;
@@ -9,7 +9,7 @@ export default function SubjectButton({subject}) {
     let reached = 20;
 
     return (
-        <TouchableHighlight>
+        <TouchableHighlight onLongPress={() => deleteAlert(id)}>
             <View style={styles.container}>
                 <View style={styles.percentView}>
                     <Text style={styles.bigText}>{reached}%</Text>

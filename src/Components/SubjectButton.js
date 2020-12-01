@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
-export default function SubjectButton({subject, id, deleteAlert}) {
+export default function SubjectButton({subject, id, deleteAlert, navigation}) {
     let needed = subject.needed;
     let exercises = subject.exercises;
     let title = subject.title;
     let count = exercises.length;
-    let reached = 20;
+    let reached = 0;
+    for(let x of exercises) {
+        reached += x[0] / x[1];
+    }
 
     return (
-        <TouchableHighlight onLongPress={() => deleteAlert(id)}>
+        <TouchableHighlight onLongPress={() => deleteAlert(id)} onPress={() => navigation.navigate('SubjectScreen')}>
             <View style={styles.container}>
                 <View style={styles.percentView}>
                     <Text style={styles.bigText}>{reached}%</Text>
@@ -27,9 +30,7 @@ export default function SubjectButton({subject, id, deleteAlert}) {
   const styles = StyleSheet.create({
     container: {
       borderWidth: 1,
-      margin: 6,
-      marginBottom: 3,
-      marginTop: 3,
+      marginBottom: 5,
       padding: 5,
       flexDirection: "row",
       borderColor: '#5C5C5C',
@@ -37,7 +38,8 @@ export default function SubjectButton({subject, id, deleteAlert}) {
      },
      percentView: {
         borderRightWidth: 1,
-        paddingRight: 10,
+        width: 70,
+        paddingRight: 5,
         borderColor: "#5C5C5C"
      },
      bigText: {

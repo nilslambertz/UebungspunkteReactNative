@@ -23,6 +23,17 @@ function resetAll() {
     FileSystem.deleteAsync(subjectFile);
 }
 
+export function deleteSubject(id) {
+    return new Promise((resolve, reject) => {
+        delete subjects[id];
+        writeFile(subjectFile, subjects).then((c) => {
+            resolve(subjects);
+        }).catch((err) => {
+            reject(err);
+        })    
+    })
+}
+
 export function initialize() {
     if(config === undefined || subjects === undefined) {
         console.log("Loading files...");

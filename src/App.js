@@ -2,7 +2,7 @@ import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Button, StatusBar, Platform, TouchableHighlight, Modal, Alert, TextInput } from 'react-native';
 import SubjectButton from './Components/SubjectButton';
-import { addSubject, initialize, titleExists } from './Utils/FileManagement';
+import { addSubject, deleteSubject, initialize, titleExists } from './Utils/FileManagement';
 
 class App extends Component {
   constructor(props) {
@@ -26,9 +26,38 @@ class App extends Component {
 
   printSubjectList = () => {
     let subjects = this.state.subjects;
+    let deleteAlert = this.deleteAlert;
     return Object.keys(subjects).map(function(c, i) {
-      return <SubjectButton key={c} subject={subjects[c]}></SubjectButton>
+      return <SubjectButton key={c} subject={subjects[c]} id={c} deleteAlert={deleteAlert}></SubjectButton>
     })
+  }
+
+  requestDelete = (id) => {
+    let p = deleteSubject(id);
+    p.then((c) => {
+      this.setState({subjects: c});
+    }).catch((err) => {
+      alert("Fehler beim Löschen des Fachs!");
+    })
+  }
+
+  deleteAlert = (id) => {
+    let subject = this.state.subjects[id];
+    Alert.alert(
+      'Warnung',
+      "Willst du das Fach " + subject.title + " unwiderruflich löschen?",
+      [
+        {
+          text: "JA, löschen",
+          style: 'destructive',
+          onPress: () => this.requestDelete(id)
+        },
+        {
+          text: "NEIN, abbrechen", 
+          style: 'cancel'
+        }
+      ]
+    )
   }
 
   resetErrors = () => {

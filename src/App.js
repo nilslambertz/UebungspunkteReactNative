@@ -1,10 +1,13 @@
+import 'react-native-gesture-handler';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
-import React, { useEffect, useState, Component } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Button, StatusBar, Platform, TouchableHighlight, Modal, Alert, TextInput } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, ScrollView, Button, StatusBar, Platform, TouchableHighlight, Modal, Alert, TextInput } from 'react-native';
 import SubjectButton from './Components/SubjectButton';
 import { addSubject, deleteSubject, initialize, titleExists } from './Utils/FileManagement';
+import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-class App extends Component {
+class App extends Component {  
   constructor(props) {
     super(props);
     this.state = {
@@ -135,49 +138,51 @@ class App extends Component {
 
   render() {
   return (
-    <SafeAreaView style={styles.container}>
-      <ExpoStatusBar style="auto" />
-      <Modal animationType="slide" transparent={true} visible={this.state.modalVisible} onRequestClose={() => {
-         this.setState({modalVisible: false});
-         this.resetErrors();
-      }
-      }>
-        <View style={styles.outerModal}>
-          <Text style={styles.modalHeader}>Neues Fach</Text>
-          <View style={styles.modalSection}>
-            <Text style={styles.modalText}>Titel</Text>
-            <TextInput style={styles.modalInput} onChangeText={(t) => {this.validateTitle(t)}}/>
-            <Text style={styles.modalError}>{this.state.titleError}</Text>
+    <NavigationContainer>
+      <SafeAreaView style={styles.container}>
+        <ExpoStatusBar style="auto" />
+        <Modal animationType="slide" transparent={true} visible={this.state.modalVisible} onRequestClose={() => {
+          this.setState({modalVisible: false});
+          this.resetErrors();
+        }
+        }>
+          <View style={styles.outerModal}>
+            <Text style={styles.modalHeader}>Neues Fach</Text>
+            <View style={styles.modalSection}>
+              <Text style={styles.modalText}>Titel</Text>
+              <TextInput style={styles.modalInput} onChangeText={(t) => {this.validateTitle(t)}}/>
+              <Text style={styles.modalError}>{this.state.titleError}</Text>
+            </View>
+            <View style={styles.modalSection}>
+              <Text style={styles.modalText}>Benötigte Prozent</Text>
+              <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {this.validateProzent(t)}} />
+              <Text style={styles.modalError}>{this.state.prozentError}</Text>
+            </View>
+            <View style={styles.modalSection}>
+              <Text style={styles.modalText}>Anzahl der Übungen</Text>
+              <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {this.validateAnzahl(t)}} />
+              <Text style={styles.modalError}>{this.state.anzahlError}</Text>
+            </View>
+            <View style={styles.modalButtonView}>
+              <Button onPress={() => {
+                this.setState({modalVisible: false});
+                this.resetErrors();
+              }} title="Schließen" color="red"></Button>
+              <Button title="Speichern" onPress={() => this.createNewSubject()}></Button>
+            </View>
           </View>
-          <View style={styles.modalSection}>
-            <Text style={styles.modalText}>Benötigte Prozent</Text>
-            <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {this.validateProzent(t)}} />
-            <Text style={styles.modalError}>{this.state.prozentError}</Text>
-          </View>
-          <View style={styles.modalSection}>
-            <Text style={styles.modalText}>Anzahl der Übungen</Text>
-            <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {this.validateAnzahl(t)}} />
-            <Text style={styles.modalError}>{this.state.anzahlError}</Text>
-          </View>
-          <View style={styles.modalButtonView}>
-            <Button onPress={() => {
-              this.setState({modalVisible: false});
-              this.resetErrors();
-            }} title="Schließen" color="red"></Button>
-            <Button title="Speichern" onPress={() => this.createNewSubject()}></Button>
-          </View>
-        </View>
-      </Modal>
+        </Modal>
 
-      <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-        {this.printSubjectList()}
-      </ScrollView>
-      <TouchableHighlight style={styles.newSubjectButton} onPress={this.newSubjectPress}>
-        <View>
-          <Text style={styles.newSubjectButtonText}>Neues Fach</Text>
-        </View>
-      </TouchableHighlight>
-    </SafeAreaView>
+        <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+          {this.printSubjectList()}
+        </ScrollView>
+        <TouchableHighlight style={styles.newSubjectButton} onPress={this.newSubjectPress}>
+          <View>
+            <Text style={styles.newSubjectButtonText}>Neues Fach</Text>
+          </View>
+        </TouchableHighlight>
+      </SafeAreaView>
+    </NavigationContainer>
   );
     }
 }
@@ -188,7 +193,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
    },
    scrollViewStyle: {
       paddingBottom: 65

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, StatusBar, Platform, TouchableOpacity, Modal, Alert, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Alert, TextInput } from 'react-native';
 import ExerciseView from './ExerciseView';
 
 class SubjectScreen extends Component {  

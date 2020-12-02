@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, Alert, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, TouchableOpacity, Modal, Alert, TextInput } from 'react-native';
 import SubjectButton from './SubjectButton';
 import { addSubject, deleteSubject, initialize, titleExists } from './../Utils/FileManagement';
 
@@ -172,11 +172,11 @@ class Main extends Component {
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
             {this.printSubjectList()}
           </ScrollView>
-          <TouchableHighlight style={styles.newSubjectButton} onPress={this.newSubjectPress}>
+          <TouchableOpacity style={styles.newSubjectButton} onPress={this.newSubjectPress}>
             <View>
               <Text style={styles.newSubjectButtonText}>Neues Fach</Text>
             </View>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
     );
       }

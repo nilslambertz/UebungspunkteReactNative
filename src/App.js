@@ -14,9 +14,15 @@ function App() {
       <ExpoStatusBar style="auto" />
       <Stack.Navigator>
         <Stack.Screen name="Übersicht" component={Main} options={{headerStyle: {
-            backgroundColor: '#E0E0E0',
+            backgroundColor: '#EDEDED',
+            borderColor: "black",
+            borderBottomWidth: 1
           }}} />
-          <Stack.Screen name="SubjectScreen" component={SubjectScreen} />
+          <Stack.Screen name="SubjectScreen" component={SubjectScreen} options={{headerStyle: {
+            backgroundColor: '#EDEDED',
+            borderColor: "black",
+            borderBottomWidth: 1
+          }}} />
       </Stack.Navigator>
     </NavigationContainer>
   )

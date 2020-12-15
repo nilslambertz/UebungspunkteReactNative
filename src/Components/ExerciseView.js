@@ -1,19 +1,36 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Button, TextInput } from 'react-native';
 
-export default function ExerciseView() {
+export default function ExerciseView({index, points, max, pressFunction, longPressFunction}) {
+    const [pointText, setPointText] = useState(points);
+    const [maxText, setMaxText] = useState(max);
+    const [confirmed, setConfirmed] = useState(true);
+
     return (
-        <TouchableOpacity onLongPress={() => {}}>
+        <TouchableOpacity onLongPress={() => {longPressFunction(index)}}>
             <View style={styles.container}>
                 <View style={styles.exerciseNumber}>
-                    <Text style={styles.exerciseNumberText}>1</Text>
+                    <Text style={styles.exerciseNumberText}>{index+1}</Text>
                 </View>
                 <View style={styles.centerView}> 
-                    <Text>test</Text>
+                    <TextInput style={styles.input} keyboardType='numeric' onChangeText={t => {
+                        setPointText(t);
+                        setConfirmed(false);
+                    }}>{pointText}</TextInput>
+                    <Text style={styles.centerDivider}>/</Text>
+                    <TextInput style={styles.input} keyboardType='numeric' onChangeText={t => {
+                        setMaxText(t);
+                        setConfirmed(false);
+                    }}>{maxText}</TextInput>
                 </View>
+                { !confirmed &&
                 <View style={styles.okayButtonView}>
-                    <Button title="Okay" onPress={() => {}}></Button>
+                    <Button title={"Speichern"} onPress={() => {
+                        setConfirmed(true);
+                        pressFunction(index, parseFloat(pointText), parseFloat(maxText));
+                    }}></Button>
                 </View>
+                }
             </View>
         </TouchableOpacity>
     );
@@ -30,6 +47,7 @@ const styles = StyleSheet.create({
      },
      exerciseNumber: {
         borderRightWidth: 1,
+        justifyContent: "center",
         width: 50,
         paddingRight: 5,
         borderColor: "#5C5C5C"
@@ -39,10 +57,25 @@ const styles = StyleSheet.create({
          textAlign: "center"
      },
      centerView: {
-        flex: 1
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        paddingHorizontal: 10
+     },
+     centerDivider: {
+        fontSize: 30,
+        paddingHorizontal: 10
+     },
+     input: {
+        fontSize: 20,
+        borderColor: "gray",
+        flex: 1,
+        borderWidth: 1,
+        padding: 5
      },
      okayButtonView: {
-        paddingLeft: 5,
+        paddingLeft: 10,
+        justifyContent: "center",
         borderLeftWidth: 1,
         borderColor: "#5C5C5C"
      }

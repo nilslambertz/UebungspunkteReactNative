@@ -34,6 +34,17 @@ export function deleteSubject(id) {
     })
 }
 
+export function changeExercisePoints(id, index, newPoints, newMax) {
+    subjects[id].exercises[parseInt(index)] = [parseFloat(newPoints), parseFloat(newMax)];
+    return new Promise((resolve, reject) => {
+        writeFile(subjectFile, subjects).then((c) => {
+            resolve(subjects[id]);
+        }).catch((err) => {
+            reject(err);
+        })
+    });
+}
+
 export function initialize() {
     if(config === undefined || subjects === undefined) {
         console.log("Loading files...");
@@ -110,7 +121,11 @@ export function addSubject(newTitle, newProzent, newAnzahl) {
             title: newTitle,
             needed: newProzent,
             number: newAnzahl,
-            exercises: []
+            exercises: [
+                [10.0, 20.0],
+                [5.5, 8.5],
+                [13.0, 37.0]
+            ]
         };
         let p = writeFile(subjectFile, subjects);
         p.then((c) => {

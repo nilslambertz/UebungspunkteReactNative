@@ -6,10 +6,13 @@ export default function SubjectButton({subject, id, deleteAlert, navigation}) {
     let exercises = subject.exercises;
     let title = subject.title;
     let count = exercises.length;
-    let reached = 0;
+    let points = 0;
+    let max = 0;
     for(let x of exercises) {
-        reached += x[0] / x[1];
+        points += x[0];
+        max += x[1];
     }
+    let reached = Number.parseInt(Math.round((points / max) * 100));
 
     return (
         <TouchableOpacity onLongPress={() => deleteAlert(id)} onPress={() => {

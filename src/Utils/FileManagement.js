@@ -34,6 +34,28 @@ export function deleteSubject(id) {
     })
 }
 
+export function addExercise(id, index, points, max) {
+    subjects[id].exercises[parseInt(index)] = [parseFloat(points), parseFloat(max)];
+    return new Promise((resolve, reject) => {
+        writeFile(subjectFile, subjects).then((c) => {
+            resolve(subjects[id]);
+        }).catch((err) => {
+            reject(err);
+        })
+    });
+}
+
+export function deleteExercise(id, index) {
+    return new Promise((resolve, reject) => {
+        subjects[id].exercises.splice(index, 1);
+        writeFile(subjectFile, subjects).then((c) => {
+            resolve(subjects[id]);
+        }).catch((err) => {
+            reject(err);
+        })    
+    })
+}
+
 export function changeExercisePoints(id, index, newPoints, newMax) {
     subjects[id].exercises[parseInt(index)] = [parseFloat(newPoints), parseFloat(newMax)];
     return new Promise((resolve, reject) => {
@@ -122,9 +144,13 @@ export function addSubject(newTitle, newProzent, newAnzahl) {
             needed: newProzent,
             number: newAnzahl,
             exercises: [
-                [10.0, 20.0],
+                [12.0, 20.0],
                 [5.5, 8.5],
-                [13.0, 37.0]
+                [13.0, 37.0],
+                [15.0, 25.0],
+                [5.8, 12.5],
+                [40.0, 20.0],
+                [22, 21.5]
             ]
         };
         let p = writeFile(subjectFile, subjects);

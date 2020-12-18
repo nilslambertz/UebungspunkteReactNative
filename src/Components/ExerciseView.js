@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Button, TextInput } from 'react-native';
 
-export default function ExerciseView({index, points, max, pressFunction, longPressFunction}) {
+export default function ExerciseView({index, points, max, pressFunction, longPressFunction, newExercise}) {
     const [pointText, setPointText] = useState(points);
     const [maxText, setMaxText] = useState(max);
     const [confirmed, setConfirmed] = useState(true);
 
+    const containerStyle = (newExercise ? [styles.container, styles.newExercise] : styles.container);
+
     return (
         <TouchableOpacity onLongPress={() => {longPressFunction(index)}}>
-            <View style={styles.container}>
+            <View style={containerStyle}>
                 <View style={styles.exerciseNumber}>
                     <Text style={styles.exerciseNumberText}>{index+1}</Text>
                 </View>
@@ -44,8 +46,11 @@ const styles = StyleSheet.create({
       flexDirection: "row",
       borderColor: '#5C5C5C',
       backgroundColor: 'white'
-     },
-     exerciseNumber: {
+    },
+    newExercise: {
+        backgroundColor: "#EBB1B1"
+    },
+    exerciseNumber: {
         borderRightWidth: 1,
         justifyContent: "center",
         width: 50,

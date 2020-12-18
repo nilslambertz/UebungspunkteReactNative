@@ -68,12 +68,7 @@ export function changeExercisePoints(id, index, newPoints, newMax) {
 }
 
 export function getSubjectList() {
-    let subjectLoad = load(subjectFile, "subjects", initialSubjects);
-    return new Promise((resolve, reject) => {
-        subjectLoad.then((sub) => {
-            resolve({sub});
-        }).catch(err => {console.log(err); reject(err)});
-    });
+    return subjects;
 }
 
 export function initialize() {

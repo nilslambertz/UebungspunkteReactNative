@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableOpacity, Modal, Alert, TextInput } from 'react-native';
 import SubjectButton from './SubjectButton';
-import { addSubject, deleteSubject, initialize, titleExists } from './../Utils/FileManagement';
+import { addSubject, deleteSubject, initialize, titleExists, getSubjectList } from './../Utils/FileManagement';
 
 class Main extends Component {  
     constructor(props) {
@@ -21,9 +21,26 @@ class Main extends Component {
       let p = initialize();
       p.then((c) => {
         this.setState({subjects: c.subjects});
-      })
+      });
+    }
+
+    componentDidMount() {
+      this._unsubscribe = this.props.navigation.addListener('focus', () => {
+       this.updateList();
+      });
     }
   
+    componentWillUnmount() {
+      this._unsubscribe();
+    }
+
+    updateList = () => {
+      let sub = getSubjectList()
+      if(sub !== undefined) {
+        this.setState({subjects: sub});
+      }
+    }
+
     printSubjectList = () => {
       let subjects = this.state.subjects;
       let deleteAlert = this.deleteAlert;

@@ -15,8 +15,6 @@ class SubjectScreen extends Component {
         }
     }
 
-    
-
     componentDidMount() {
         this.props.navigation.setOptions({title: this.state.subject.title});
     }
@@ -104,7 +102,7 @@ class SubjectScreen extends Component {
                      exerciseList
                   }
                   { this.state.newExercise == true &&
-                      <ExerciseView key={"newExercise"} index={len} points={0} max={maxPt} pressFunction={this.requestExerciseAdd} longPressFunction={() => {}}></ExerciseView>
+                      <ExerciseView key={"newExercise"} index={len} points={0} max={maxPt} pressFunction={this.requestExerciseAdd} longPressFunction={() => {}} newExercise={true}></ExerciseView>
                   }
                 </ScrollView>
                 <TouchableOpacity style={styles.newExerciseButton} onPress={this.newSubjectPress}>

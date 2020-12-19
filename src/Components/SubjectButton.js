@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function SubjectButton({subject, id, deleteAlert, navigation}) {
     let needed = subject.needed;
     let exercises = subject.exercises;
-    let title = subject.title;
     let count = exercises.length;
     let points = 0;
     let max = 0;
@@ -20,15 +19,14 @@ export default function SubjectButton({subject, id, deleteAlert, navigation}) {
     return (
         <TouchableOpacity onLongPress={() => deleteAlert(id)} onPress={() => {
             navigation.navigate('SubjectScreen', { subject, id });
-        }
-        }>
+        }}>
             <View style={styles.container}>
                 <View style={styles.percentView}>
                     <Text style={styles.bigText}>{reached}%</Text>
                     <Text style={styles.smallText}>/{needed}%</Text>
                 </View>
                 <View style={styles.titleView}> 
-                    <Text style={styles.bigText}>{title}</Text>
+                    <Text style={styles.bigText}>{subject.title}</Text>
                     <Text style={styles.smallText}>{parseInt(count) === 1 ? "Eine Übung" : count + " Übungen"}</Text>
                 </View>
             </View>

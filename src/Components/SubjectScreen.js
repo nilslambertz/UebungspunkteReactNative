@@ -8,23 +8,26 @@ class SubjectScreen extends Component {
       super(props);
       let params = props.route.params;
       this.state = {
-          id: params.id,
-          subject: params.subject,
-          updateKey: 0,
-          newExercise: false
+          id: params.id, // ID of the subject
+          subject: params.subject, // Subject-object
+          updateKey: 0, // Key used to update the list (so React needs to refresh the screen)
+          newExercise: false // If the "Add exercise"-button was pressed
         }
     }
 
+    // Sets the header-text to the subject-title
     componentDidMount() {
         this.props.navigation.setOptions({title: this.state.subject.title});
     }
 
+    // Sends request to change the points
     changePoints = (index, points, max) => {
         let p = changeExercisePoints(this.state.id, index, points, max);
         p.then((c) => {
             this.setState({subject: c}, () => {
-                let lolxd = parseInt(this.state.updateKey) + 1;
-                this.setState({updateKey: lolxd});
+                // Change updateKey
+                let newKey = parseInt(this.state.updateKey) + 1;
+                this.setState({updateKey: newKey});
             });
         }).catch((err) => {
             console.log(err);
@@ -32,13 +35,14 @@ class SubjectScreen extends Component {
         })
     };
 
+    // Sends request to delete exercise
     requestExerciseDelete = (index) => {
         let p = deleteExercise(this.state.id, index);
 
         p.then((c) => {
             this.setState({subject: c}, () => {
-                let lolxd = parseInt(this.state.updateKey) + 1;
-                this.setState({updateKey: lolxd});
+                let newKey = parseInt(this.state.updateKey) + 1;
+                this.setState({updateKey: newKey});
             });
         }).catch((err) => {
           alert("Fehler beim Löschen des Fachs!");
@@ -46,6 +50,7 @@ class SubjectScreen extends Component {
         })
       }
 
+    // Sends alert when trying to delete exercise
     exerciseDeleteAlert = (index) => {
         Alert.alert(
             'Warnung',
@@ -64,16 +69,18 @@ class SubjectScreen extends Component {
         )
     }
 
+    // When "New Exercise"-button is pressed
     newExercisePress = () => {
         this.setState({newExercise: true});
     }
 
+    // Sends request to add new exercise to the list
     requestExerciseAdd = (index, points, max) => {
         let p = addExercise(this.state.id, index, points, max);
         p.then((c) => {
             this.setState({subject: c}, () => {
-                let lolxd = parseInt(this.state.updateKey) + 1;
-                this.setState({updateKey: lolxd}, () => {
+                let newKey = parseInt(this.state.updateKey) + 1;
+                this.setState({updateKey: newKey}, () => {
                     this.setState({newExercise: false});
                 });
             });

@@ -8,7 +8,7 @@ class Main extends Component {
       super(props);
       this.state = {
         subjects: {}, // Subject-list
-        modalVisible: true, // If the "Create subject"-modal is visible
+        modalVisible: false, // If the "Create subject"-modal is visible
         newTitle: "", // Chosen title (when creating new subject)
         newProzent: 0, // Chosen percent (when creating new subject)
         newAnzahl: 0, // Chosen number of exercises (when creating new subject)
@@ -189,7 +189,7 @@ class Main extends Component {
           }
           }>
             <View style={styles.modalShadow}>
-              <View style={styles.modal}>
+              <ScrollView style={styles.modal}>
               <Text style={styles.modalHeader}>Neues Fach</Text>
               <View style={styles.modalSection}>
                 <Text style={styles.modalText}>Titel</Text>
@@ -213,7 +213,7 @@ class Main extends Component {
                 }} title="Schließen" color="red"></Button>
                 <Button title="Speichern" onPress={() => this.createNewSubject()}></Button>
               </View>
-            </View>
+            </ScrollView>
           </View>
           </Modal>
   
@@ -248,7 +248,7 @@ class Main extends Component {
       alignSelf: "center",
       borderWidth: 1,
       borderColor: "gray",
-      position: "absolute"
+      position: "absolute",
      },
      newSubjectButtonText: {
        fontSize: 20,
@@ -256,22 +256,26 @@ class Main extends Component {
      },
      modalShadow: {
        flex: 1,
+       position: 'relative',
        backgroundColor: "rgba(0,0,0,0.7)"
      },
      modal: {
-       position: "absolute",
        width: "100%",
+       position: "absolute",
        marginTop: 0,
        bottom: 0,
-       borderTopStartRadius: 20,
-       borderTopEndRadius: 20,
+       borderTopLeftRadius: 20,
+       borderTopRightRadius: 20,
        padding: 20,
        flexDirection: "column",
-       backgroundColor: "#EFEFEF"
+       backgroundColor: "#EFEFEF",
+       height: "60%",
+       flexGrow: 1
      },
      modalButtonView: {
        flexDirection: "row",
-       justifyContent: "space-around"
+       justifyContent: "space-around",
+       marginBottom: 30,
      },
      modalHeader: {
       color: "black",

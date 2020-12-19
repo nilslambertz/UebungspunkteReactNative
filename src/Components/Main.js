@@ -1,4 +1,3 @@
-import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableOpacity, Modal, Alert, TextInput } from 'react-native';
 import SubjectButton from './SubjectButton';
@@ -8,32 +7,35 @@ class Main extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        modalVisible: false,
-        newTitle: "",
-        subjects: {},
-        newProzent: 0,
-        newAnzahl: 0,
-        titleError: "",
-        prozentError: "",
-        anzahlError: ""
+        subjects: {}, // Subject-list
+        modalVisible: false, // If the "Create subject"-modal is visible
+        newTitle: "", // Chosen title (when creating new subject)
+        newProzent: 0, // Chosen percent (when creating new subject)
+        newAnzahl: 0, // Chosen number of exercises (when creating new subject)
+        titleError: "", // If there is an error with the new title
+        prozentError: "", // If there is an error with the percent
+        anzahlError: "" // If there is an error with the number of exercises
       };
       console.log("Initializing app...");
-      let p = initialize();
+      let p = initialize(); // Getting data from the FileManagement 
       p.then((c) => {
-        this.setState({subjects: c.subjects});
+        this.setState({subjects: c.subjects}); // Setting subject-list
       });
     }
 
+    // Adds listener to refresh subject-list when component gets focus
     componentDidMount() {
       this._unsubscribe = this.props.navigation.addListener('focus', () => {
        this.updateList();
       });
     }
   
+    // Removes listener to focus when changing screens
     componentWillUnmount() {
       this._unsubscribe();
     }
 
+    // Updates subject-list (if not undefined)
     updateList = () => {
       let sub = getSubjectList()
       if(sub !== undefined) {
@@ -41,15 +43,7 @@ class Main extends Component {
       }
     }
 
-    printSubjectList = () => {
-      let subjects = this.state.subjects;
-      let deleteAlert = this.deleteAlert;
-      let navigation = this.props.navigation;
-      return Object.keys(subjects).map(function(c, i) {
-        return <SubjectButton key={c} subject={subjects[c]} id={c} deleteAlert={deleteAlert} navigation={navigation}></SubjectButton>
-      })
-    }
-  
+    // Sends request to delete subject from the list, alerts error if it fails
     requestDelete = (id) => {
       let p = deleteSubject(id);
       p.then((c) => {
@@ -59,6 +53,7 @@ class Main extends Component {
       })
     }
   
+    // Alerts warning when trying to delete a subject, proceeds if confirmed
     deleteAlert = (id) => {
       let subject = this.state.subjects[id];
       Alert.alert(
@@ -78,77 +73,111 @@ class Main extends Component {
       )
     }
   
+    // Resets all errors when creating new subject
     resetErrors = () => {
       this.setState({titleError: ""});
       this.setState({prozentError: ""});
       this.setState({anzahlError: ""});
     }
   
+    // Creates new subject if all inputs are filled out with valid values
     createNewSubject = () => {
-      if(this.state.newTitle.trim() === "" || this.state.newTitle === undefined) {
-        alert("Titel darf nicht leer sein!");
-        return;
-      } else if(this.state.newProzent === undefined) {
-        alert("Prozent darf nicht leer sein!");
-        return;
-      } else if(this.state.newAnzahl === undefined) {
-        alert("Anzahl darf nicht leer sein!");
-        return;
+      // Checking all values and sending alert error if one or more is not valid
+      let validAnzahl = this.validateAnzahl(this.state.newAnzahl);
+      let validProzent = this.validateProzent(this.state.newProzent);
+      let validTitle = this.validateTitle(this.state.newTitle);  
+      if(!validAnzahl || !validProzent || !validTitle) {
+        alert("Bitte alle Felder korrekt ausfüllen!");
+        return false;
       }
   
-      if(this.state.titleError) {
-        alert(this.state.titleError);
-        return;
-      } else if(this.state.prozentError) {
-        alert(this.state.prozentError);
-        return;
-      } else if(this.state.anzahlError) {
-        alert(this.state.anzahlError);
-        return;
-      }
-  
+      // Sending request to add new subject and closing modal if successful, otherwise alerting error
       let p = addSubject(this.state.newTitle, this.state.newProzent, this.state.newAnzahl);
       p.then((c) => {
         this.setState({modalVisible: false});
-        console.log(c);
       }).catch((err) => {
         alert("Fehler beim Hinzufügen des Fachs!");
       });
     }
   
+    // Open modal when "New Subject"-button is pressed
     newSubjectPress = () => {
       this.setState({modalVisible: true});
     };
   
+    // Validates input for new title
     validateTitle = (text) => {
-      if(titleExists(text)) {
+      if(titleExists(text)) { 
+        // If title already exists 
         this.setState({titleError: "Titel ist bereits vergeben!"});
+      } else if(text.trim() === "") {
+        // If title-input is empty or just whitespaces
+        this.setState({titleError: "Titel darf nicht leer sein!"});
       } else {
+        // If title is valid
         this.setState({titleError: ""});
         this.setState({newTitle: text.trim()});
+        return true;
       }
+      return false;
     }
   
+    // Validates input for new percent
     validateProzent = (text) => {
       let p = parseInt(text);
-      if(p <= 0) {
-        this.setState({prozentError: "Angabe muss größer als 0 sein!"});
+      if(isNaN(p) && text.trim() === "") {
+        // If input is empty
+        this.setState({prozentError: "Prozentangabe darf nicht leer sein!"});
+      } else if(isNaN(p)) {
+        // If input is not a number
+        this.setState({prozentError: "Prozentangabe muss eine Zahl sein!"});
+      } else if(p <= 0) {
+        // If input is lower than 0
+        this.setState({prozentError: "Prozentangabe muss größer als 0 sein!"});
       } else if(p >= 100) {
-        this.setState({prozentError: "Prozent muss kleiner als 100 sein!"});
+        // If input is higher than 100
+        this.setState({prozentError: "Prozentangabe muss kleiner als 100 sein!"});
       } else {
+        // If input is valid
         this.setState({prozentError: ""});
         this.setState({newProzent: p});
+        return true;
       }
+      return false;
     }
   
+    // Validates input for new count
     validateAnzahl = (text) => {
       let p = parseInt(text);
-      if(p <= 0) {
-        this.setState({anzahlError: "Angabe muss größer als 0 sein!"});
+      if(isNaN(p) && text.trim() === "") {
+        // If input is empty
+        this.setState({anzahlError: "Anzahlangabe darf nicht leer sein!"});
+      } else if(isNaN(p)) {
+        // If input is not a number
+        this.setState({anzahlError: "Anzahlangabe muss eine Zahl sein!"});
+      } else if(p <= 0) {
+        // If input is lower than 0
+        this.setState({anzahlError: "Anzahlangabe muss größer als 0 sein!"});
+      } else if(p >= 100) {
+        // If input is higher than 100
+        this.setState({anzahlError: "Anzahlangabe muss kleiner als 100 sein!"});
       } else {
+        // If input is valid
         this.setState({anzahlError: ""});
         this.setState({newAnzahl: p});
+        return true;
       }
+      return false;
+    }
+  
+    // Prints out all SubjectButtons
+    printSubjectList = () => {
+      let subjects = this.state.subjects;
+      let deleteAlert = this.deleteAlert;
+      let navigation = this.props.navigation;
+      return Object.keys(subjects).map(function(c, i) {
+        return <SubjectButton key={c} subject={subjects[c]} id={c} deleteAlert={deleteAlert} navigation={navigation}></SubjectButton>
+      })
     }
   
     render() {

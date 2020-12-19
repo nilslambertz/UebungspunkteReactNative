@@ -1,31 +1,37 @@
 import * as FileSystem from 'expo-file-system';
 
 const dir = FileSystem.documentDirectory;
-const configFile = dir + "config.json";
-const subjectFile = dir + "subjects.json";
+const configFile = dir + "config.json"; // Configuration-file
+const subjectFile = dir + "subjects.json"; // Subject-file
 
-const initialConfig = {"idCount": 0};
-const initialSubjects = {};
+const initialConfig = {"idCount": 0}; // Initial config when starting the app for the first time
+const initialSubjects = {}; // Initial subjects (none)
 
-let config;
-let subjects;
+let config; // Current config
+let subjects; // Current Subjects
 
+// Reads the given file and returns the promise
 function readFile(filename) {
     return FileSystem.readAsStringAsync(filename, { encoding: FileSystem.EncodingType.UTF8});
 }
 
+// Writes to the given file and returns the promise
 function writeFile(filename, jsonContent) {
     return FileSystem.writeAsStringAsync(filename, JSON.stringify(jsonContent), { encoding: FileSystem.EncodingType.UTF8});
 }
 
+// Deletes all stored files
 function resetAll() {
     FileSystem.deleteAsync(configFile);
     FileSystem.deleteAsync(subjectFile);
 }
 
+// Deletes subject with the given id
 export function deleteSubject(id) {
     return new Promise((resolve, reject) => {
-        delete subjects[id];
+        delete subjects[id]; // Deleting given subject from the list
+
+        // Writing changed subject-list to the file
         writeFile(subjectFile, subjects).then((c) => {
             resolve(subjects);
         }).catch((err) => {
@@ -34,8 +40,11 @@ export function deleteSubject(id) {
     })
 }
 
+// Adds new exercise to subject with given id
 export function addExercise(id, index, points, max) {
-    subjects[id].exercises[parseInt(index)] = [parseFloat(points), parseFloat(max)];
+    subjects[id].exercises[parseInt(index)] = [parseFloat(points), parseFloat(max)]; // Adding exercise to the list
+
+    // Returning updated subject
     return new Promise((resolve, reject) => {
         writeFile(subjectFile, subjects).then((c) => {
             resolve(subjects[id]);
@@ -45,9 +54,12 @@ export function addExercise(id, index, points, max) {
     });
 }
 
+// Deletes exercise from subject
 export function deleteExercise(id, index) {
     return new Promise((resolve, reject) => {
-        subjects[id].exercises.splice(index, 1);
+        subjects[id].exercises.splice(index, 1); // Removing exercise from the list 
+
+        // Returning updated subject
         writeFile(subjectFile, subjects).then((c) => {
             resolve(subjects[id]);
         }).catch((err) => {
@@ -56,8 +68,11 @@ export function deleteExercise(id, index) {
     })
 }
 
+// Changes points in an existing exercise
 export function changeExercisePoints(id, index, newPoints, newMax) {
-    subjects[id].exercises[parseInt(index)] = [parseFloat(newPoints), parseFloat(newMax)];
+    subjects[id].exercises[parseInt(index)] = [parseFloat(newPoints), parseFloat(newMax)]; // Parsing new values to exercise
+
+    // Returning updated subject 
     return new Promise((resolve, reject) => {
         writeFile(subjectFile, subjects).then((c) => {
             resolve(subjects[id]);
@@ -67,16 +82,20 @@ export function changeExercisePoints(id, index, newPoints, newMax) {
     });
 }
 
+// Returns list of subjects or undefined if called before files are loaded
 export function getSubjectList() {
     return subjects;
 }
 
+// Loads files (if needed) and stores the values in the variables, returning the values
 export function initialize() {
+    // If file(s) need to be loaded
     if(config === undefined || subjects === undefined) {
         console.log("Loading files...");
-        let configLoad = load(configFile, "config", initialConfig);
-        let subjectLoad = load(subjectFile, "subjects", initialSubjects);
+        let configLoad = load(configFile, "config", initialConfig); // Loading config
+        let subjectLoad = load(subjectFile, "subjects", initialSubjects); // Loading subjects
 
+        // Returns config and subjects if successfull
         return new Promise((resolve, reject) => {
             configLoad.then((con) => {
                 config = con;
@@ -90,7 +109,10 @@ export function initialize() {
             }).catch(err => {console.log(err); reject(err)});
         });
     } else {
+        // Files are already loaded
         console.log("Already loaded.");
+
+        // Returns config and subjects
         return new Promise((resolve, reject) => {
             resolve({
                 config,
@@ -100,11 +122,15 @@ export function initialize() {
     }
 }
 
+// Loads file and returns it's value, if file does not exist it creates the file and writes the defaultContent to it
 function load(file, title, defaultContent) {
     return new Promise((resolve, reject) => {
         FileSystem.getInfoAsync(file).then(f => {
+            // If file exists already
             if(f.exists) {
-                let p = readFile(file);
+                let p = readFile(file); // Reading content of the file
+
+                // Parsing content als JSON and returning the object
                 p.then((c) => {
                     resolve(JSON.parse(c));
                     console.log("Loaded " + title + " successfully");
@@ -112,7 +138,10 @@ function load(file, title, defaultContent) {
                     reject("Error while reading " + title + ". Path: " + file);
                 });
             } else {
+                // If file doesn't exist, write defaultContent to it
                 let p = writeFile(file, defaultContent);
+
+                // Returning defaultContent
                 p.then((c) => {
                     resolve(defaultContent);
                     console.log("Created " + title);
@@ -124,47 +153,50 @@ function load(file, title, defaultContent) {
     });
 }
 
+// Checks if a title already exists
 export function titleExists(t) {
     t = t.trim().toLowerCase();
     for(let x in subjects) {
-        if(x.toLowerCase() === t) {
+        if(subjects[x].title.toLowerCase() === t) {
             return true;
         }
     }
     return false;
 }
 
+// Adds new subject to the list
 export function addSubject(newTitle, newProzent, newAnzahl) {
-    newTitle = newTitle.trim();
+    newTitle = newTitle.trim(); // Removing whitespaces around the title
+
+    // Returning if the title already exists (case-insensitive)
     if(titleExists(newTitle)) return false;
+
+    // Parsing values
     newProzent = parseInt(newProzent);
     newAnzahl = parseInt(newAnzahl);
 
-    let newId = config.idCount;
+    let newId = config.idCount; // Next id
     
     return new Promise((resolve, reject) => {
+        // Creating subject with given values and empty exercise-list
         subjects[newId] = {
             title: newTitle,
             needed: newProzent,
             number: newAnzahl,
-            exercises: [
-                [12.0, 20.0],
-                [5.5, 8.5],
-                [13.0, 37.0],
-                [15.0, 25.0],
-                [5.8, 12.5],
-                [40.0, 20.0],
-                [22, 21.5]
-            ]
+            exercises: []
         };
-        let p = writeFile(subjectFile, subjects);
+        let p = writeFile(subjectFile, subjects); // Writing new subject to file
+
+        // If writing was successful
         p.then((c) => {
-            resolve(subjects);
             console.log("Created subject with title " + newTitle);
-            config.idCount = newId + 1;
-            let p = writeFile(configFile, config);
+            config.idCount = newId + 1; // Incrementing id
+            let p = writeFile(configFile, config); // Writing updated config to file
+
+            // If successful, return the new subject-list
             p.then((c) => {
                 console.log("Incremented subject count to " + config.idCount);
+                resolve(subjects);
             }).catch(() => {
                 reject("Error while writing to to " + configFile + "\nError: " + err);
             })

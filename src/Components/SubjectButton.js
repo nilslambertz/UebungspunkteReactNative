@@ -2,18 +2,19 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function SubjectButton({subject, id, deleteAlert, navigation}) {
-    let needed = subject.needed;
-    let exercises = subject.exercises;
-    let count = exercises.length;
-    let points = 0;
-    let max = 0;
-    let reached = 0;
+    let needed = subject.needed; // Percent needed for this subject
+    let exercises = subject.exercises; // All exercises
+    let count = exercises.length; // Number of exercises
+
+    let points = 0; // Total reached points
+    let max = 0; // Maximum points which could be reached
+    let reachedPercent = 0; // Reached percent (points/max)
     for(let x of exercises) {
         points += x[0];
         max += x[1];
     }
     if(max !== 0) {
-        reached = Number.parseInt(Math.round((points / max) * 100));
+        reachedPercent = Number.parseInt(Math.round((points / max) * 100));
     }
 
     return (
@@ -22,7 +23,7 @@ export default function SubjectButton({subject, id, deleteAlert, navigation}) {
         }}>
             <View style={styles.container}>
                 <View style={styles.percentView}>
-                    <Text style={styles.bigText}>{reached}%</Text>
+                    <Text style={styles.bigText}>{reachedPercent}%</Text>
                     <Text style={styles.smallText}>/{needed}%</Text>
                 </View>
                 <View style={styles.titleView}> 

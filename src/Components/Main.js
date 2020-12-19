@@ -8,7 +8,7 @@ class Main extends Component {
       super(props);
       this.state = {
         subjects: {}, // Subject-list
-        modalVisible: false, // If the "Create subject"-modal is visible
+        modalVisible: true, // If the "Create subject"-modal is visible
         newTitle: "", // Chosen title (when creating new subject)
         newProzent: 0, // Chosen percent (when creating new subject)
         newAnzahl: 0, // Chosen number of exercises (when creating new subject)
@@ -183,12 +183,13 @@ class Main extends Component {
     render() {
     return (
         <View style={styles.container}>
-          <Modal animationType="slide" transparent={true} visible={this.state.modalVisible} onRequestClose={() => {
+          <Modal animationType="fade" transparent={true} visible={this.state.modalVisible} onRequestClose={() => {
             this.setState({modalVisible: false});
             this.resetErrors();
           }
           }>
-            <View style={styles.outerModal}>
+            <View style={styles.modalShadow}>
+              <View style={styles.modal}>
               <Text style={styles.modalHeader}>Neues Fach</Text>
               <View style={styles.modalSection}>
                 <Text style={styles.modalText}>Titel</Text>
@@ -213,6 +214,7 @@ class Main extends Component {
                 <Button title="Speichern" onPress={() => this.createNewSubject()}></Button>
               </View>
             </View>
+          </View>
           </Modal>
   
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
@@ -252,16 +254,20 @@ class Main extends Component {
        fontSize: 20,
        color: "black"
      },
-     outerModal: {
+     modalShadow: {
        flex: 1,
-       margin: 20,
+       backgroundColor: "rgba(0,0,0,0.7)"
+     },
+     modal: {
+       position: "absolute",
+       width: "100%",
        marginTop: 0,
+       bottom: 0,
+       borderTopStartRadius: 20,
+       borderTopEndRadius: 20,
        padding: 20,
-       justifyContent: "space-between",
        flexDirection: "column",
-       backgroundColor: "rgba(200,200,200, 0.95)",
-       borderWidth: 1,
-       borderColor: "black"
+       backgroundColor: "#EFEFEF"
      },
      modalButtonView: {
        flexDirection: "row",

@@ -22,6 +22,17 @@ function SubjectPopup({
     const [newProzent, setNewProzent] = useState(currentProzent);
     const [newNumber, setNewNumber] = useState(currentNumber);
 
+    const Emoji = props => (
+        <span
+            className="emoji"
+            role="img"
+            aria-label={props.label ? props.label : ""}
+            aria-hidden={props.label ? "false" : "true"}
+        >
+            {props.symbol}
+        </span>
+    );
+
     function validateTitle(text) {
         setNewTitle(text);
         text = text.trim();
@@ -48,6 +59,9 @@ function SubjectPopup({
         } else if(isNaN(p)) {
           // If input is not a number
           setError("Angabe muss eine Zahl sein!");
+        } else if(p === 1337) {
+            // Easteregg
+            setError("haha lol 1337 ich bin lustig \uD83D\uDE20");
         } else if(p <= lowerBorder) {
           // If input is lower than lowerBorder
           setError("Angabe muss größer als " + lowerBorder + " sein!");

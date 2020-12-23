@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Alert, TextInput } from 'react-native';
-import { changeExercisePoints, deleteExercise, addExercise } from '../Utils/FileManagement';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Alert, TextInput, Button, TouchableWithoutFeedbackBase } from 'react-native';
+import { changeExercisePoints, deleteExercise, addExercise, editSubject } from '../Utils/FileManagement';
 import ExerciseView from './ExerciseView';
+import SubjectPopup from './SubjectPopup';
 
 class SubjectScreen extends Component {  
     constructor(props) {
@@ -11,13 +12,18 @@ class SubjectScreen extends Component {
           id: params.id, // ID of the subject
           subject: params.subject, // Subject-object
           updateKey: 0, // Key used to update the list (so React needs to refresh the screen)
-          newExercise: false // If the "Add exercise"-button was pressed
+          newExercise: false, // If the "Add exercise"-button was pressed
+          modalVisible: false, // If the "Edit subject"-modal is visible
         }
     }
 
     // Sets the header-text to the subject-title
     componentDidMount() {
-        this.props.navigation.setOptions({title: this.state.subject.title});
+        this.props.navigation.setOptions({headerRight: (p) => (
+            <View style={{marginRight: 10}}><Button title="Anpassen" onPress={() => {
+              this.setState({modalVisible: true});
+            }}></Button></View>
+          ),title: this.state.subject.title});
     }
 
     // Sends request to change the points
@@ -90,6 +96,22 @@ class SubjectScreen extends Component {
         })
     }
 
+    closeModal = () => {
+        this.setState({modalVisible: false});
+    }
+
+    // Request edit of subject and refreshes header-title if successful
+    requestSubjectEdit = (title, prozent, number) => {
+        let p = editSubject(this.state.id, title, prozent, number);
+        p.then((c) => {
+            this.setState({subject: c}, () => {
+                this.props.navigation.setOptions({title: this.state.subject.title});
+            });
+          }).catch((err) => {
+            alert("Fehler beim Ändern des Fachs!");
+          });
+    }
+
     render() {
         const exerciseList = [];
         let len = this.state.subject.exercises.length;
@@ -104,6 +126,18 @@ class SubjectScreen extends Component {
 
         return (
             <View style={styles.container}>
+                <SubjectPopup 
+                    visible={this.state.modalVisible}
+                    closeFunction={this.closeModal}
+                    modalTitle={"Fach bearbeiten"}
+                    titleText={"Titel (alt: \"" + this.state.subject.title + "\")"}
+                    prozentText={"Benötigte Prozent (alt: " + this.state.subject.needed + ")"}
+                    numberText={"Anzahl der Übungen (alt: " + this.state.subject.number + ")"}
+                    saveFunction={this.requestSubjectEdit}              
+                    currentTitle={this.state.subject.title}
+                    currentProzent={this.state.subject.needed + ""}
+                    currentNumber={this.state.subject.number + ""}
+                ></SubjectPopup>
                <ScrollView contentContainerStyle={styles.scrollViewStyle}>
                   {
                      exerciseList

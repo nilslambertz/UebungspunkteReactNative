@@ -3,8 +3,27 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Alert, Tex
 import { changeExercisePoints, deleteExercise, addExercise, editSubject } from '../Utils/FileManagement';
 import ExerciseView from './ExerciseView';
 import SubjectPopup from './SubjectPopup';
+import { LineChart } from "react-native-chart-kit";
+import { Dimensions } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
+const chartConfig = {
+    backgroundGradientFrom: "#EBEBEB",
+    backgroundGradientFromOpacity: 0.3,
+    backgroundGradientTo: "#D2D2D2",
+    backgroundGradientToOpacity: 0.7,
+    propsForDots: {
+        r: "4",
+        fill: "#1672CE"
+    },
+    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false,
+  };
 
 class SubjectScreen extends Component {  
+    data = {};
+
     constructor(props) {
       super(props);
       let params = props.route.params;
@@ -14,6 +33,27 @@ class SubjectScreen extends Component {
           updateKey: 0, // Key used to update the list (so React needs to refresh the screen)
           newExercise: false, // If the "Add exercise"-button was pressed
           modalVisible: false, // If the "Edit subject"-modal is visible
+        }
+        this.createData();
+    }
+
+    createData = () => {
+        this.data = {
+            labels: [],
+            datasets: [{
+                data: [],
+                color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
+                strokeWidth: 2
+            }]
+        }
+
+        for(let i in this.state.subject.exercises) {
+            let elem = this.state.subject.exercises[i];
+            let val = Math.round(elem[0] * 100 / elem[1]);
+            if(val < 0) val = 0;
+            if(val > 100) val = 100;
+            this.data.labels.push(parseInt(i) + 1);
+            this.data.datasets[0].data.push(val);
         }
     }
 
@@ -34,6 +74,7 @@ class SubjectScreen extends Component {
                 // Change updateKey
                 let newKey = parseInt(this.state.updateKey) + 1;
                 this.setState({updateKey: newKey});
+                this.createData();
             });
         }).catch((err) => {
             console.log(err);
@@ -49,6 +90,7 @@ class SubjectScreen extends Component {
             this.setState({subject: c}, () => {
                 let newKey = parseInt(this.state.updateKey) + 1;
                 this.setState({updateKey: newKey});
+                this.createData();
             });
         }).catch((err) => {
           alert("Fehler beim Löschen des Fachs!");
@@ -88,6 +130,7 @@ class SubjectScreen extends Component {
                 let newKey = parseInt(this.state.updateKey) + 1;
                 this.setState({updateKey: newKey}, () => {
                     this.setState({newExercise: false});
+                    this.createData();
                 });
             });
         }).catch((err) => {
@@ -122,7 +165,6 @@ class SubjectScreen extends Component {
         }
 
         let maxPt = (len == 0 ? 10 : this.state.subject.exercises[len-1][1]);
-        
 
         return (
             <View style={styles.container}>
@@ -138,7 +180,20 @@ class SubjectScreen extends Component {
                     currentProzent={this.state.subject.needed + ""}
                     currentNumber={this.state.subject.number + ""}
                 ></SubjectPopup>
+            
                <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+
+               { this.state.subject.exercises.length > 2 && 
+                   <LineChart
+                   data={this.data}
+                        width={screenWidth}
+                        height={200}
+                        fromZero={true}
+                        yAxisSuffix={"%"}
+                        chartConfig={chartConfig}
+                        style={{marginBottom: 10}}
+                   />
+               }
                   {
                      exerciseList
                   }

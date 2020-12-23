@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import SubjectButton from './SubjectButton';
 import { addSubject, deleteSubject, initialize, getSubjectList } from './../Utils/FileManagement';
 import SubjectPopup from './SubjectPopup';
@@ -94,6 +94,7 @@ class Main extends Component {
       })
     }
 
+    // Closes modal
     closeModal = () => {
       this.setState({modalVisible: false});
     }
@@ -101,15 +102,15 @@ class Main extends Component {
     render() {
     return (
         <View style={styles.container}>
-              <SubjectPopup 
-                visible={this.state.modalVisible} 
-                closeFunction={this.closeModal}
-                modalTitle={"Neues Fach hinzufügen"}
-                titleText={"Titel"}
-                prozentText={"Benötigte Prozent"}
-                numberText={"Anzahl der Übungen"}
-                saveFunction={this.createNewSubject}              
-              ></SubjectPopup>
+          <SubjectPopup 
+            visible={this.state.modalVisible} 
+            closeFunction={this.closeModal}
+            modalTitle={"Neues Fach hinzufügen"}
+            titleText={"Titel"}
+            prozentText={"Benötigte Prozent"}
+            numberText={"Anzahl der Übungen"}
+            saveFunction={this.createNewSubject}              
+          ></SubjectPopup>
   
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
             {this.printSubjectList()}

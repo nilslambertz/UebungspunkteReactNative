@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, Button } f
 import { changeExercisePoints, deleteExercise, addExercise, editSubject } from '../Utils/FileManagement';
 import ExerciseView from './ExerciseView';
 import SubjectPopup from './SubjectPopup';
-import { Chart, VerticalAxis, HorizontalAxis, Line } from 'react-native-responsive-linechart'
+import { Chart, VerticalAxis, HorizontalAxis, Line, Area } from 'react-native-responsive-linechart'
 
 class SubjectScreen extends Component {  
     data = [];
@@ -169,13 +169,23 @@ class SubjectScreen extends Component {
 
                { this.state.subject.exercises.length > 2 && 
                    <Chart
-                    style={{ height: 200, width: '100%', backgroundColor: '#eee', marginBottom: 5 }}
+                    style={{ height: 200, width: '100%', marginBottom: 5 }}
                     xDomain={{ min: 1, max: this.data.length }}
                     yDomain={{ min: 0, max: 100 }}
                     padding={{ left: 20, top: 10, bottom: 20, right: 10 }}
                     >
                     <VerticalAxis tickValues={[25, 50, 75, 100]} />
                     <HorizontalAxis tickCount={this.data.length} />
+                    <Area 
+                        theme={{ gradient: { from : { color: '#FF0000', opacity: 0.3 }, to : { color: '#FF0000' , opacity: 0.2 } } }} 
+                        smoothing="none"
+                        data={this.neededData} 
+                    />
+                    <Area 
+                        theme={{ gradient: { from : { color: '#316CD4', opacity: 0.6 }, to : { color: '#81A8EE' , opacity: 0.2 } } }} 
+                        smoothing="cubic-spline"
+                        data={this.data} 
+                    />
                     <Line data={this.neededData} smoothing="none" theme={{ stroke: { color: 'red', width: 1 } }} />
                     <Line data={this.data} smoothing="cubic-spline" theme={{ stroke: { color: '#316CD4', width: 1 }, scatter: { default: { width: 6, height: 6, rx: 6, color: '#316CD4' }}}} />
                     </Chart>

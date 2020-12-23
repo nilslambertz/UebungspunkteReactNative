@@ -92,11 +92,11 @@ function SubjectPopup({
 
     function resetAndClose() {
         setTitleError("");
-        setNewTitle("");
+        setNewTitle(currentTitle);
         setProzentError("");
-        setNewProzent("");
+        setNewProzent(currentProzent);
         setNumberError("");
-        setNewNumber("");
+        setNewNumber(currentNumber);
         closeFunction();
     }
 

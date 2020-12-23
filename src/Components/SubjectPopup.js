@@ -87,16 +87,16 @@ function SubjectPopup({
       }
   
       saveFunction(newTitle, newProzent, newNumber);
-      resetAndClose();
+      resetAndClose(true);
     }
 
-    function resetAndClose() {
+    function resetAndClose(updated) {
         setTitleError("");
-        setNewTitle(currentTitle);
+        setNewTitle(updated ? newTitle: currentTitle);
         setProzentError("");
-        setNewProzent(currentProzent);
+        setNewProzent(updated ? newProzent : currentProzent);
         setNumberError("");
-        setNewNumber(currentNumber);
+        setNewNumber(updated ? newNumber : currentNumber);
         closeFunction();
     }
 

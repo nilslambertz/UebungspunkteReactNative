@@ -181,7 +181,10 @@ class SubjectScreen extends Component {
                     currentNumber={this.state.subject.number + ""}
                 ></SubjectPopup>
             
-               <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+               <ScrollView
+                contentContainerStyle={styles.scrollViewStyle}
+                ref={ref => this.scrollView = ref} 
+                >
 
                { this.state.subject.exercises.length > 2 && 
                    <LineChart

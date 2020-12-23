@@ -23,6 +23,7 @@
     "react-native-input-validator": "^1.0.10",
     "react-native-material-textfield": "^0.16.1",
     "react-native-reanimated": "~1.13.0",
+    "react-native-responsive-linechart": "^5.3.2",
     "react-native-safe-area-context": "^3.1.4",
     "react-native-screens": "~2.10.1",
     "react-native-svg": "^12.1.0",

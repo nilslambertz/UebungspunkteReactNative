@@ -19,6 +19,10 @@ export default function SubjectButton({subject, id, deleteAlert, navigation}) {
         if(reachedPercent < 0) reachedPercent = 0;
     }
 
+    let uebungsText = count + " Übungen";
+    if(count == 0) uebungsText = "Noch keine Übung :'(";
+    if(count == 1) uebungsText = "Eine Übung";
+
     return (
         <TouchableOpacity onLongPress={() => deleteAlert(id)} onPress={() => {
             navigation.navigate('SubjectScreen', { subject, id });
@@ -30,7 +34,7 @@ export default function SubjectButton({subject, id, deleteAlert, navigation}) {
                 </View>
                 <View style={styles.titleView}> 
                     <Text style={styles.bigText}>{subject.title}</Text>
-                    <Text style={styles.smallText}>{parseInt(count) === 1 ? "Eine Übung" : count + " Übungen"}</Text>
+                    <Text style={styles.smallText}>{uebungsText}</Text>
                 </View>
             </View>
         </TouchableOpacity>

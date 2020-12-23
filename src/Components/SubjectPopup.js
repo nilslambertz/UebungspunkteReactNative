@@ -3,28 +3,32 @@ import { StyleSheet, Text, View, ScrollView, Button, Modal, TextInput } from 're
 import { titleExists } from './../Utils/FileManagement';
 
 function SubjectPopup({
-    visible, 
-    closeFunction,
-    modalTitle,
-    titleText,
-    prozentText,
-    numberText,
-    addSubject
+    visible, // If popup is visible
+    closeFunction, // function called when popup is being closed
+    modalTitle, // popup-title
+    titleText, // text above title-input
+    prozentText, // text above prozent-input
+    numberText, // text above number-input
+    saveFunction, // function when clicking save-button
+    currentTitle,
+    currentProzent,
+    currentNumber
     }) {
 
     const [titleError, setTitleError] = useState("");
     const [prozentError, setProzentError] = useState("");
     const [numberError, setNumberError] = useState("");
-    const [newTitle, setNewTitle] = useState("");
-    const [newProzent, setNewProzent] = useState(0);
-    const [newNumber, setNewNumber] = useState(0);
+    const [newTitle, setNewTitle] = useState(currentTitle);
+    const [newProzent, setNewProzent] = useState(currentProzent);
+    const [newNumber, setNewNumber] = useState(currentNumber);
 
     function validateTitle(text) {
         setNewTitle(text);
-        if(titleExists(text)) { 
+        text = text.trim();
+        if(titleExists(text) && text != currentTitle) { 
             // If title already exists 
             setTitleError("Titel ist bereits vergeben!");
-        } else if(text.trim() === "") {
+        } else if(text === "") {
             // If title-input is empty or just whitespaces
             setTitleError("Titel darf nicht leer sein!");
         } else {
@@ -68,7 +72,7 @@ function SubjectPopup({
         return false;
       }
   
-      addSubject(newTitle, newProzent, newNumber);
+      saveFunction(newTitle, newProzent, newNumber);
       resetAndClose();
     }
 
@@ -88,22 +92,22 @@ function SubjectPopup({
             resetAndClose();
           }
           }>
-            <View style={styles.modalShadow}>
+        <View style={styles.modalShadow}>
               <ScrollView style={styles.modal}>
               <Text style={styles.modalHeader}>{modalTitle}</Text>
               <View style={styles.modalSection}>
                 <Text style={styles.modalText}>{titleText}</Text>
-                <TextInput style={styles.modalInput} onChangeText={(t) => {validateTitle(t)}}/>
+                <TextInput style={styles.modalInput} onChangeText={(t) => {validateTitle(t)}} value={newTitle} placeholder={newTitle}/>
                 <Text style={styles.modalError}>{titleError}</Text>
               </View>
               <View style={styles.modalSection}>
                 <Text style={styles.modalText}>{prozentText}</Text>
-                <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {validateNumericInput(t, 0, 100, setProzentError, setNewProzent)}} />
+                <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {validateNumericInput(t, 0, 100, setProzentError, setNewProzent)}} value={newProzent} placeholder={newProzent}/>
                 <Text style={styles.modalError}>{prozentError}</Text>
               </View>
               <View style={styles.modalSection}>
                 <Text style={styles.modalText}>{numberText}</Text>
-                <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {validateNumericInput(t, 1, Infinity, setNumberError, setNewNumber)}} />
+                <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {validateNumericInput(t, 1, Infinity, setNumberError, setNewNumber)}} value={newNumber} placeholder={newNumber}/>
                 <Text style={styles.modalError}>{numberError}</Text>
               </View>
               <View style={styles.modalButtonView}>
@@ -133,13 +137,13 @@ const styles = StyleSheet.create({
        padding: 20,
        flexDirection: "column",
        backgroundColor: "#EFEFEF",
-       height: "60%",
+       height: "65%",
        flexGrow: 1
      },
      modalButtonView: {
        flexDirection: "row",
        justifyContent: "space-around",
-       marginBottom: 30,
+       margin: 30,
      },
      modalHeader: {
       color: "black",

@@ -191,7 +191,7 @@ class SubjectScreen extends Component {
                         fromZero={true}
                         yAxisSuffix={"%"}
                         chartConfig={chartConfig}
-                        style={{marginBottom: 10}}
+                        style={{marginBottom: 5}}
                    />
                }
                   {

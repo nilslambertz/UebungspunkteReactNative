@@ -173,6 +173,8 @@ class SubjectScreen extends Component {
                     xDomain={{ min: 1, max: this.data.length }}
                     yDomain={{ min: 0, max: 100 }}
                     padding={{ left: 20, top: 10, bottom: 20, right: 10 }}
+                    disableTouch={true}
+                    disableGestures={true}
                     >
                     <VerticalAxis tickValues={[25, 50, 75, 100]} />
                     <HorizontalAxis tickCount={this.data.length} />

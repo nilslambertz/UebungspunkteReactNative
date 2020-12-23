@@ -36,7 +36,7 @@ function SubjectPopup({
     function validateTitle(text) {
         setNewTitle(text);
         text = text.trim();
-        if(titleExists(text) && text != currentTitle) { 
+        if(titleExists(text, currentTitle)) { 
             // If title already exists 
             setTitleError("Titel ist bereits vergeben!");
         } else if(text === "") {

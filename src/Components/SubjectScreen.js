@@ -1,28 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Alert, TextInput, Button, TouchableWithoutFeedbackBase } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, Button } from 'react-native';
 import { changeExercisePoints, deleteExercise, addExercise, editSubject } from '../Utils/FileManagement';
 import ExerciseView from './ExerciseView';
 import SubjectPopup from './SubjectPopup';
-import { LineChart } from "react-native-chart-kit";
-import { Dimensions } from "react-native";
-
-const screenWidth = Dimensions.get("window").width;
-const chartConfig = {
-    backgroundGradientFrom: "#EBEBEB",
-    backgroundGradientFromOpacity: 0.3,
-    backgroundGradientTo: "#D2D2D2",
-    backgroundGradientToOpacity: 0.7,
-    propsForDots: {
-        r: "4",
-        fill: "#1672CE"
-    },
-    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false,
-  };
+import { Chart, VerticalAxis, HorizontalAxis, Line } from 'react-native-responsive-linechart'
 
 class SubjectScreen extends Component {  
-    data = {};
+    data = [];
+    neededData = [];
 
     constructor(props) {
       super(props);
@@ -38,22 +23,18 @@ class SubjectScreen extends Component {
     }
 
     createData = () => {
-        this.data = {
-            labels: [],
-            datasets: [{
-                data: [],
-                color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
-                strokeWidth: 2
-            }]
-        }
+        this.data = [];
+        this.neededData = [];
+        let needed = this.state.subject.needed;
 
         for(let i in this.state.subject.exercises) {
             let elem = this.state.subject.exercises[i];
             let val = Math.round(elem[0] * 100 / elem[1]);
             if(val < 0) val = 0;
             if(val > 100) val = 100;
-            this.data.labels.push(parseInt(i) + 1);
-            this.data.datasets[0].data.push(val);
+            let index = parseInt(i)+1;
+            this.data.push({x: index, y: val});
+            this.neededData.push({x: index, y: needed});
         }
     }
 
@@ -187,15 +168,17 @@ class SubjectScreen extends Component {
                 >
 
                { this.state.subject.exercises.length > 2 && 
-                   <LineChart
-                   data={this.data}
-                        width={screenWidth}
-                        height={200}
-                        fromZero={true}
-                        yAxisSuffix={"%"}
-                        chartConfig={chartConfig}
-                        style={{marginBottom: 5}}
-                   />
+                   <Chart
+                    style={{ height: 200, width: '100%', backgroundColor: '#eee', marginBottom: 5 }}
+                    xDomain={{ min: 1, max: this.data.length }}
+                    yDomain={{ min: 0, max: 100 }}
+                    padding={{ left: 20, top: 10, bottom: 20, right: 10 }}
+                    >
+                    <VerticalAxis tickValues={[25, 50, 75, 100]} />
+                    <HorizontalAxis tickCount={this.data.length} />
+                    <Line data={this.neededData} smoothing="none" theme={{ stroke: { color: 'red', width: 1 } }} />
+                    <Line data={this.data} smoothing="cubic-spline" theme={{ stroke: { color: '#316CD4', width: 1 }, scatter: { default: { width: 6, height: 6, rx: 6, color: '#316CD4' }}}} />
+                    </Chart>
                }
                   {
                      exerciseList

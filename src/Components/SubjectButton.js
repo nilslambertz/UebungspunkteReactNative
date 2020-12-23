@@ -15,6 +15,8 @@ export default function SubjectButton({subject, id, deleteAlert, navigation}) {
     }
     if(max !== 0) {
         reachedPercent = Number.parseInt(Math.round((points / max) * 100));
+        if(reachedPercent > 100) reachedPercent = 100;
+        if(reachedPercent < 0) reachedPercent = 0;
     }
 
     return (

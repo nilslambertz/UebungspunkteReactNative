@@ -170,7 +170,7 @@ function load(file, title, defaultContent) {
 }
 
 // Checks if a title already exists
-export function titleExists(t, currentTitle) {
+export function titleExists(t, currentTitle = "") {
     t = t.trim().toLowerCase();
 
     if(t === currentTitle.toLowerCase()) return false;

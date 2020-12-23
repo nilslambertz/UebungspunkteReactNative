@@ -108,7 +108,7 @@ class Main extends Component {
                 titleText={"Titel"}
                 prozentText={"Benötigte Prozent"}
                 numberText={"Anzahl der Übungen"}
-                addSubject={this.createNewSubject}              
+                saveFunction={this.createNewSubject}              
               ></SubjectPopup>
   
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>

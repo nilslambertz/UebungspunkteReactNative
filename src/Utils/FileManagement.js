@@ -82,6 +82,22 @@ export function changeExercisePoints(id, index, newPoints, newMax) {
     });
 }
 
+export function editSubject(id, title, percent, number) {
+    let s = subjects[id];
+    s["title"] = title;
+    s["needed"] = percent;
+    s["number"] = number;
+    subjects[id] = s;
+
+    return new Promise((resolve, reject) => {
+        writeFile(subjectFile, subjects).then((c) => {
+            resolve(subjects[id]);
+        }).catch((err) => {
+            reject(err);
+        })
+    });
+}
+
 // Returns list of subjects or undefined if called before files are loaded
 export function getSubjectList() {
     return subjects;

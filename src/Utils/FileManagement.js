@@ -22,8 +22,8 @@ function writeFile(filename, jsonContent) {
 
 // Deletes all stored files
 function resetAll() {
-    FileSystem.deleteAsync(configFile);
-    FileSystem.deleteAsync(subjectFile);
+    FileSystem.deleteAsync(configFile).then(r => console.log("Deleted config-file"));
+    FileSystem.deleteAsync(subjectFile).then(r => console.log("Deleted subject-file"));
 }
 
 // Deletes subject with the given id

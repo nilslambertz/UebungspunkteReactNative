@@ -42,8 +42,8 @@ class SubjectScreen extends Component {
     componentDidMount() {
         this.props.navigation.setOptions({headerRight: (p) => (
             <View style={{marginRight: 10}}><Button title="Anpassen" onPress={() => {
-              this.setState({modalVisible: true});
-            }}></Button></View>
+                this.setState({modalVisible: true});
+            }}/></View>
           ),title: this.state.subject.title});
     }
 
@@ -142,10 +142,10 @@ class SubjectScreen extends Component {
 
         for(let i = 0; i < len; i++) {
             let c = this.state.subject.exercises[i];
-            exerciseList.push(<ExerciseView key={this.state.updateKey.toString() + "-" + i.toString()} index={i} points={c[0]} max={c[1]} pressFunction={this.changePoints} longPressFunction={this.exerciseDeleteAlert}></ExerciseView>)
+            exerciseList.push(<ExerciseView key={this.state.updateKey.toString() + "-" + i.toString()} index={i} points={c[0]} max={c[1]} pressFunction={this.changePoints} longPressFunction={this.exerciseDeleteAlert}/>)
         }
 
-        let maxPt = (len == 0 ? 10 : this.state.subject.exercises[len-1][1]);
+        let maxPt = (len === 0 ? 10 : this.state.subject.exercises[len-1][1]);
 
         return (
             <View style={styles.container}>

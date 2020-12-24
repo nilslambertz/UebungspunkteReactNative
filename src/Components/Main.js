@@ -90,7 +90,7 @@ class Main extends Component {
       let deleteAlert = this.deleteAlert;
       let navigation = this.props.navigation;
       return Object.keys(subjects).map(function(c, i) {
-        return <SubjectButton key={c} subject={subjects[c]} id={c} deleteAlert={deleteAlert} navigation={navigation}></SubjectButton>
+        return <SubjectButton key={c} subject={subjects[c]} id={c} deleteAlert={deleteAlert} navigation={navigation}/>
       })
     }
 
@@ -102,15 +102,15 @@ class Main extends Component {
     render() {
     return (
         <View style={styles.container}>
-          <SubjectPopup 
-            visible={this.state.modalVisible} 
+          <SubjectPopup
+            visible={this.state.modalVisible}
             closeFunction={this.closeModal}
             modalTitle={"Neues Fach hinzufügen"}
             titleText={"Titel"}
             prozentText={"Benötigte Prozent"}
             numberText={"Anzahl der Übungen"}
-            saveFunction={this.createNewSubject}              
-          ></SubjectPopup>
+            saveFunction={this.createNewSubject}
+            />
   
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
             {this.printSubjectList()}

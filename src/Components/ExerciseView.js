@@ -30,7 +30,7 @@ export default function ExerciseView({index, points, max, pressFunction, longPre
                     <Button title={"Speichern"} onPress={() => {
                         setConfirmed(true);
                         pressFunction(index, parseFloat(pointText), parseFloat(maxText));
-                    }}></Button>
+                    }}/>
                 </View>
                 }
             </View>

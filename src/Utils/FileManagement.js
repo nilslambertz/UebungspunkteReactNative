@@ -13,11 +13,13 @@ const initialConfig = {
 const initialSubjects = {};
 // Initial settings
 const initialSettings = {
-    "lightTheme": true
+    "lightTheme": true,
+    "showGraph": true
 };
 
-let config; // Current config
-let subjects; // Current Subjects
+let config;
+let subjects;
+let settings;
 
 // Reads the given file and returns the promise
 function readFile(filename) {
@@ -120,6 +122,7 @@ export function initialize() {
         console.log("Loading files...");
         let configLoad = load(configFile, "config", initialConfig); // Loading config
         let subjectLoad = load(subjectFile, "subjects", initialSubjects); // Loading subjects
+        let settingsLoad = load(settingsFile, "settings", initialSettings); // Loading settings
 
         // Returns config and subjects if successfull
         return new Promise((resolve, reject) => {
@@ -127,10 +130,15 @@ export function initialize() {
                 config = con;
                 subjectLoad.then((sub) => {
                     subjects = sub;
-                    resolve({
-                        config,
-                        subjects
-                    });
+                    settingsLoad.then((set) => {
+                        settings = set;
+                        console.log(settings);
+                        resolve({
+                            config,
+                            subjects,
+                            settings
+                        });
+                    }).catch(err => {console.log(err); reject(err)});
                 }).catch(err => {console.log(err); reject(err)});
             }).catch(err => {console.log(err); reject(err)});
         });
@@ -142,7 +150,8 @@ export function initialize() {
         return new Promise((resolve, reject) => {
             resolve({
                 config,
-                subjects
+                subjects,
+                settings
             });
         });
     }

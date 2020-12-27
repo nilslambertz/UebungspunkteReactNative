@@ -3,9 +3,18 @@ import * as FileSystem from 'expo-file-system';
 const dir = FileSystem.documentDirectory;
 const configFile = dir + "config.json"; // Configuration-file
 const subjectFile = dir + "subjects.json"; // Subject-file
+const settingsFile = dir + "settings.json"; // Settings-file
 
-const initialConfig = {"idCount": 0}; // Initial config when starting the app for the first time
-const initialSubjects = {}; // Initial subjects (none)
+// Initial config when starting the app for the first time
+const initialConfig = {
+    "idCount": 0
+};
+// Initial subjects (none)
+const initialSubjects = {};
+// Initial settings
+const initialSettings = {
+    "lightTheme": true
+};
 
 let config; // Current config
 let subjects; // Current Subjects
@@ -24,6 +33,7 @@ function writeFile(filename, jsonContent) {
 function resetAll() {
     FileSystem.deleteAsync(configFile).then(r => console.log("Deleted config-file"));
     FileSystem.deleteAsync(subjectFile).then(r => console.log("Deleted subject-file"));
+    FileSystem.deleteAsync(settingsFile).then(r => console.log("Deleted settings-file"));
 }
 
 // Deletes subject with the given id

@@ -124,7 +124,7 @@ export function initialize() {
         let subjectLoad = load(subjectFile, "subjects", initialSubjects); // Loading subjects
         let settingsLoad = load(settingsFile, "settings", initialSettings); // Loading settings
 
-        // Returns config and subjects if successfull
+        // Returns config and subjects if successful
         return new Promise((resolve, reject) => {
             configLoad.then((con) => {
                 config = con;
@@ -167,7 +167,13 @@ function load(file, title, defaultContent) {
 
                 // Parsing content als JSON and returning the object
                 p.then((c) => {
-                    resolve(JSON.parse(c));
+                    let obj = JSON.parse(c);
+                    for(let x in defaultContent) {
+                        if(obj[x + ""] === undefined) {
+                            obj[x + ""] = defaultContent[x + ""];
+                        }
+                    }
+                    resolve(obj);
                     console.log("Loaded " + title + " successfully");
                 }).catch(() => {
                     reject("Error while reading " + title + ". Path: " + file);

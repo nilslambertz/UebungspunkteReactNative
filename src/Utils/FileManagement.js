@@ -46,6 +46,20 @@ function resetAll() {
     FileSystem.deleteAsync(settingsFile).then(r => console.log("Deleted settings-file"));
 }
 
+// Changes value of specified setting
+export function changeSettings(id, newValue) {
+    return new Promise((resolve, reject) => {
+        if(settings === undefined) reject("Error: Settings are not loaded.");
+
+        settings[id + ""]["value"] = newValue;
+        writeFile(settingsFile, settings).then((c) => {
+            resolve(settings);
+        }).catch((err) => {
+            reject(err);
+        })
+    })
+}
+
 // Returns the settings
 export function getSettings() {
     return new Promise((resolve, reject) => {

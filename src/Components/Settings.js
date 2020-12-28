@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Alert, Button} from 'react-native';
 import SettingsItem from "./SettingsItem";
-import {changeSettings, getSettings} from "../Utils/FileManagement";
+import {changeSettings, getSettings, resetSettings} from "../Utils/FileManagement";
 
 class Settings extends Component {
     constructor(props) {
@@ -33,13 +33,49 @@ class Settings extends Component {
         });
     }
 
+    requestSettingsReset = () => {
+        Alert.alert(
+            'Warnung',
+            "Willst du die Einstellungen wirklich zurücksetzen?",
+            [
+                {
+                    text: "JA, zurücksetzen",
+                    style: 'destructive',
+                    onPress: () => {
+                        resetSettings().then((s) => {
+                            console.log(s);
+                            this.setState({settings: s});
+                        }).catch((err) => {
+                            alert("Error while resetting settings!");
+                            console.log(err);
+                        })
+                    }
+                },
+                {
+                    text: "NEIN, abbrechen",
+                    style: 'cancel'
+                }
+            ]
+        )
+    }
+
     render() {
         return (
-            <View>
+            <ScrollView>
                 { this.printSettingsList() }
-            </View>
+                <View style={styles.resetButton}>
+                    <Button color={"red"} onPress={this.requestSettingsReset} title={"Einstellungen zurücksetzen"}/>
+                </View>
+            </ScrollView>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    resetButton: {
+        marginTop: 40,
+        marginHorizontal: 50
+    }
+});
 
 export default Settings;

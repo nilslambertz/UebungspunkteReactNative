@@ -4,11 +4,11 @@ export default StyleSheet.create({
     container: {
         flex: 1,
     },
-    scrollViewStyle: {
+    containerScrollView: {
         padding: 5,
         paddingBottom: 65
     },
-    newSubjectButton: {
+    bottomButton: {
         bottom: 10,
         paddingHorizontal: 20,
         paddingVertical: 10,
@@ -17,7 +17,7 @@ export default StyleSheet.create({
         borderWidth: 1,
         position: "absolute",
     },
-    newSubjectButtonText: {
+    bottomButtonText: {
         fontSize: 20,
     }
 });

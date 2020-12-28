@@ -150,12 +150,12 @@ class Main extends Component {
             saveFunction={this.createNewSubject}
             />
   
-          <ScrollView contentContainerStyle={[style.scrollViewStyle, colors.scrollViewStyle]}>
+          <ScrollView contentContainerStyle={[style.containerScrollView, colors.scrollViewStyle]}>
             {this.printSubjectList()}
           </ScrollView>
-          <TouchableOpacity style={[style.newSubjectButton, colors.newSubjectButton]} onPress={this.newSubjectPress}>
+          <TouchableOpacity style={[style.bottomButton, colors.newSubjectButton]} onPress={this.newSubjectPress}>
             <View>
-              <Text style={[style.newSubjectButtonText, colors.newSubjectButtonText]}>Neues Fach</Text>
+              <Text style={[style.bottomButtonText, colors.newSubjectButtonText]}>Neues Fach</Text>
             </View>
           </TouchableOpacity>
         </View>

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import style from '../../Style/style';
 
-export default function SubjectButton({subject, id, deleteAlert, navigation}) {
+export default function SubjectButton({subject, id, deleteAlert, navigation, theme}) {
     let needed = subject.needed; // Percent needed for this subject
     let exercises = subject.exercises; // All exercises
     let count = exercises.length; // Number of exercises
@@ -28,14 +28,14 @@ export default function SubjectButton({subject, id, deleteAlert, navigation}) {
         <TouchableOpacity onLongPress={() => deleteAlert(id)} onPress={() => {
             navigation.navigate('SubjectScreen', { subject, id });
         }}>
-            <View style={style.subjectButtonContainer}>
-                <View style={style.subjectButtonPercentView}>
-                    <Text style={style.subjectButtonBigText}>{reachedPercent}%</Text>
-                    <Text style={style.subjectButtonSmallText}>/{needed}%</Text>
+            <View style={[style.subjectButtonContainer, theme.subjectButtonContainer]}>
+                <View style={[style.subjectButtonPercentView, theme.subjectButtonPercentView]}>
+                    <Text style={[style.subjectButtonBigText, theme.subjectButtonBigText]}>{reachedPercent}%</Text>
+                    <Text style={[style.subjectButtonSmallText, theme.subjectButtonSmallText]}>/{needed}%</Text>
                 </View>
-                <View style={style.subjectButtonTitle}>
-                    <Text style={style.subjectButtonBigText}>{subject.title}</Text>
-                    <Text style={style.subjectButtonSmallText}>{uebungsText}</Text>
+                <View style={[style.subjectButtonTitle, theme.subjectButtonTitle]}>
+                    <Text style={[style.subjectButtonBigText, theme.subjectButtonBigText]}>{subject.title}</Text>
+                    <Text style={[style.subjectButtonSmallText, theme.subjectButtonSmallText]}>{uebungsText}</Text>
                 </View>
             </View>
         </TouchableOpacity>

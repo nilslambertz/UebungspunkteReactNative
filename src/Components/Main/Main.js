@@ -114,8 +114,9 @@ class Main extends Component {
       let subjects = this.state.subjects;
       let deleteAlert = this.deleteAlert;
       let navigation = this.props.navigation;
+      let theme = this.state.theme;
       return Object.keys(subjects).map(function(c, i) {
-        return <SubjectButton key={c} subject={subjects[c]} id={c} deleteAlert={deleteAlert} navigation={navigation}/>
+        return <SubjectButton key={c} subject={subjects[c]} id={c} deleteAlert={deleteAlert} navigation={navigation} theme={theme}/>
       })
     }
 

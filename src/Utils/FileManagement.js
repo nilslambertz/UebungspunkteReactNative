@@ -156,7 +156,6 @@ export function initialize() {
                     subjects = sub;
                     settingsLoad.then((set) => {
                         settings = set;
-                        console.log(settings);
                         resolve({
                             config,
                             subjects,

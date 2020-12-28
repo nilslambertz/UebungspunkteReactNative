@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Alert, Switch} from 'react-native';
 
-export default function SettingsItem({title, description, value}) {
+export default function SettingsItem({id, title, description, value, changeFunction}) {
+    function changeValue(x) {
+        changeFunction(id, x);
+    }
+
     return (
         <View style={styles.settingsItem}>
             <View style={styles.settingsItemLeft}>
@@ -9,7 +13,7 @@ export default function SettingsItem({title, description, value}) {
                 <Text style={styles.settingsItemDescription}>{description}</Text>
             </View>
             <View style={styles.settingsItemRight}>
-                <Switch value={value}/>
+                <Switch value={value} onValueChange={changeValue}/>
             </View>
         </View>
     )

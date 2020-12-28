@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 
-// Style for container with ScrollView
-const containerStyle = StyleSheet.create({
+export default StyleSheet.create({
+    // Style for container with ScrollView
     container: {
         flex: 1,
     },
@@ -20,11 +20,9 @@ const containerStyle = StyleSheet.create({
     },
     bottomButtonText: {
         fontSize: 20,
-    }
-});
+    },
 
-// Style for SubjectButton
-const subjectButtonStyle = StyleSheet.create({
+    // Style for SubjectButton
     subjectButtonContainer: {
         borderWidth: 1,
         marginBottom: 5,
@@ -47,11 +45,9 @@ const subjectButtonStyle = StyleSheet.create({
     },
     subjectButtonTitle: {
         paddingLeft: 10,
-    }
-});
+    },
 
-// Style for Popup
-const popupStyle = StyleSheet.create({
+    // Style for Popup
     popupShadow: {
         flex: 1,
         position: 'relative',
@@ -100,5 +96,3 @@ const popupStyle = StyleSheet.create({
         fontSize: 16
     }
 });
-
-export default StyleSheet.flatten([containerStyle, subjectButtonStyle, popupStyle]);

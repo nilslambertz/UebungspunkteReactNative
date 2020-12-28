@@ -19,7 +19,6 @@ class Settings extends Component {
         let settings = this.state.settings;
         return Object.keys(settings).map(function(c, i) {
             let obj = settings[c];
-            console.log(obj);
             return <SettingsItem key={i} value={obj["value"]} description={obj["description"]} title={obj["title"]} />
         });
     }

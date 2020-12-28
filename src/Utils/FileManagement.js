@@ -46,6 +46,7 @@ function resetAll() {
     FileSystem.deleteAsync(settingsFile).then(r => console.log("Deleted settings-file"));
 }
 
+// Returns the settings
 export function getSettings() {
     return new Promise((resolve, reject) => {
         if(settings === undefined) {
@@ -118,6 +119,7 @@ export function changeExercisePoints(id, index, newPoints, newMax) {
     });
 }
 
+// Edits subject
 export function editSubject(id, title, percent, number) {
     let s = subjects[id];
     s["title"] = title;
@@ -134,16 +136,17 @@ export function editSubject(id, title, percent, number) {
     });
 }
 
-function updateSettings(set) {
+// Updates settings
+function updateSettings() {
     return new Promise((resolve, reject) => {
-        for(let elem in set) {
-            for(let inner in set[elem + ""]) {
-                set[elem + ""]["description"] = initialSettings[elem + ""]["description"];
-                set[elem + ""]["title"] = initialSettings[elem + ""]["title"];
+        for(let elem in settings) {
+            for(let inner in settings[elem + ""]) {
+                settings[elem + ""]["description"] = initialSettings[elem + ""]["description"];
+                settings[elem + ""]["title"] = initialSettings[elem + ""]["title"];
             }
         }
-        writeFile(settingsFile, set).then(() => {
-            resolve(set);
+        writeFile(settingsFile, settings).then(() => {
+            resolve();
         }).catch((err) => {
             reject(err);
         });
@@ -172,8 +175,7 @@ export function initialize() {
                     subjects = sub;
                     settingsLoad.then((set) => {
                         settings = set;
-                        updateSettings(set).then((c) => {
-                            settings = set;
+                        updateSettings().then(() => {
                             resolve({
                                 config,
                                 subjects,

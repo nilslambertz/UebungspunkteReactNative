@@ -170,7 +170,7 @@ function updateSettings() {
 // Resets settings
 export function resetSettings() {
     return new Promise((resolve, reject) => {
-        settings = initialSettings;
+        settings = JSON.parse(JSON.stringify(initialSettings));
         writeFile(settingsFile, settings).then((c) => {
             resolve(settings);
         }).catch((err) => {

@@ -5,11 +5,11 @@ export default function SettingsItem({title, description, value}) {
     return (
         <View style={styles.settingsItem}>
             <View style={styles.settingsItemLeft}>
-                <Text style={styles.settingsItemTitle}>Light-Theme</Text>
-                <Text style={styles.settingsItemDescription}>Helles Design aktiviert</Text>
+                <Text style={styles.settingsItemTitle}>{title}</Text>
+                <Text style={styles.settingsItemDescription}>{description}</Text>
             </View>
             <View style={styles.settingsItemRight}>
-                <Switch />
+                <Switch value={value}/>
             </View>
         </View>
     )

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, Modal, TextInput } from 'react-native';
+import { Text, View, ScrollView, Button, Modal, TextInput } from 'react-native';
 import { titleExists } from '../../Utils/FileManagement';
+import style from '../../Style/style';
 
 function SubjectPopup({
     visible, // If popup is visible
@@ -106,84 +107,34 @@ function SubjectPopup({
             resetAndClose();
           }
           }>
-        <View style={styles.modalShadow}>
-              <ScrollView style={styles.modal}>
-              <Text style={styles.modalHeader}>{modalTitle}</Text>
-              <View style={styles.modalSection}>
-                <Text style={styles.modalText}>{titleText}</Text>
-                <TextInput style={styles.modalInput} onChangeText={(t) => {validateTitle(t)}} value={newTitle} placeholder={newTitle}/>
-                <Text style={styles.modalError}>{titleError}</Text>
+        <View style={style.popupShadow}>
+              <ScrollView style={style.popupContainer}>
+              <Text style={style.popupHeader}>{modalTitle}</Text>
+              <View style={style.popupSection}>
+                <Text style={style.popupText}>{titleText}</Text>
+                <TextInput style={style.popupInput} onChangeText={(t) => {validateTitle(t)}} value={newTitle} placeholder={newTitle}/>
+                <Text style={style.popupError}>{titleError}</Text>
               </View>
-              <View style={styles.modalSection}>
-                <Text style={styles.modalText}>{prozentText}</Text>
-                <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {validateNumericInput(t, 0, 100, setProzentError, setNewProzent)}} value={newProzent} placeholder={newProzent}/>
-                <Text style={styles.modalError}>{prozentError}</Text>
+              <View style={style.popupSection}>
+                <Text style={style.popupText}>{prozentText}</Text>
+                <TextInput style={style.popupInput} keyboardType='numeric' onChangeText={(t) => {validateNumericInput(t, 0, 100, setProzentError, setNewProzent)}} value={newProzent} placeholder={newProzent}/>
+                <Text style={style.popupError}>{prozentError}</Text>
               </View>
-              <View style={styles.modalSection}>
-                <Text style={styles.modalText}>{numberText}</Text>
-                <TextInput style={styles.modalInput} keyboardType='numeric' onChangeText={(t) => {validateNumericInput(t, 1, Infinity, setNumberError, setNewNumber)}} value={newNumber} placeholder={newNumber}/>
-                <Text style={styles.modalError}>{numberError}</Text>
+              <View style={style.popupSection}>
+                <Text style={style.popupText}>{numberText}</Text>
+                <TextInput style={style.popupInput} keyboardType='numeric' onChangeText={(t) => {validateNumericInput(t, 1, Infinity, setNumberError, setNewNumber)}} value={newNumber} placeholder={newNumber}/>
+                <Text style={style.popupError}>{numberError}</Text>
               </View>
-              <View style={styles.modalButtonView}>
+              <View style={style.popupButtonView}>
                 <Button onPress={() => {
                     resetAndClose();
-                }} title="Schließen" color="red"></Button>
-                <Button title="Speichern" onPress={() => createNewSubject()}></Button>
+                }} title="Schließen" color="red"/>
+                <Button title="Speichern" onPress={() => createNewSubject()}/>
               </View>
             </ScrollView>
           </View>
           </Modal>
     )
 }
-
-const styles = StyleSheet.create({
-     modalShadow: {
-       flex: 1,
-       position: 'relative',
-       backgroundColor: "rgba(0,0,0,0.7)"
-     },
-     modal: {
-       width: "100%",
-       position: "absolute",
-       bottom: 0,
-       borderTopLeftRadius: 20,
-       borderTopRightRadius: 20,
-       padding: 20,
-       flexDirection: "column",
-       backgroundColor: "#EFEFEF",
-       height: "65%",
-       flexGrow: 1
-     },
-     modalButtonView: {
-       flexDirection: "row",
-       justifyContent: "space-around",
-       margin: 30,
-     },
-     modalHeader: {
-      color: "black",
-       fontSize: 30,
-       textDecorationLine: "underline",
-       marginBottom: 10,
-       textAlign: "center"
-     },
-     modalSection: {
-     },
-     modalInput: {
-      height: 40, 
-      borderColor: 'gray', 
-      borderWidth: 1,
-      color: "black",
-      paddingHorizontal: 10
-     },
-     modalText: {
-       color: "black",
-       fontSize: 20,
-       marginBottom: 5
-     },
-     modalError: {
-       color: "red",
-       fontSize: 16
-     }
-  });
 
 export default SubjectPopup;

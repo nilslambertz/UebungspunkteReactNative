@@ -50,4 +50,55 @@ const subjectButtonStyle = StyleSheet.create({
     }
 });
 
-export default StyleSheet.flatten([containerStyle, subjectButtonStyle]);
+// Style for Popup
+const popupStyle = StyleSheet.create({
+    popupShadow: {
+        flex: 1,
+        position: 'relative',
+        backgroundColor: "rgba(0,0,0,0.7)"
+    },
+    popupContainer: {
+        width: "100%",
+        position: "absolute",
+        bottom: 0,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        padding: 20,
+        flexDirection: "column",
+        backgroundColor: "#EFEFEF",
+        height: "65%",
+        flexGrow: 1
+    },
+    popupButtonView: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        margin: 30,
+    },
+    popupHeader: {
+        color: "black",
+        fontSize: 30,
+        textDecorationLine: "underline",
+        marginBottom: 10,
+        textAlign: "center"
+    },
+    popupSection: {
+    },
+    popupInput: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        color: "black",
+        paddingHorizontal: 10
+    },
+    popupText: {
+        color: "black",
+        fontSize: 20,
+        marginBottom: 5
+    },
+    popupError: {
+        color: "red",
+        fontSize: 16
+    }
+});
+
+export default StyleSheet.flatten([containerStyle, subjectButtonStyle, popupStyle]);

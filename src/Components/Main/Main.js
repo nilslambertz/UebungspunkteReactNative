@@ -1,27 +1,64 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import SubjectButton from './SubjectButton';
-import { addSubject, deleteSubject, initialize, getSubjectList } from '../../Utils/FileManagement';
+import {addSubject, deleteSubject, initialize, getSubjectList, getSettings} from '../../Utils/FileManagement';
 import SubjectPopup from '../Popup/SubjectPopup';
+import style from '../../Style/style';
 
-class Main extends Component {  
+const lightTheme = StyleSheet.create({
+    container: {
+        backgroundColor: 'white'
+    },
+    newSubjectButton: {
+        backgroundColor: "#32CD32",
+        borderColor: "gray",
+    },
+    newSubjectButtonText: {
+        color: "black"
+    }
+});
+
+const darkTheme = StyleSheet.create({
+    container: {
+        backgroundColor: '#343434'
+    },
+    newSubjectButton: {
+        backgroundColor: "#058902",
+        borderColor: "#BCBCBC",
+    },
+    newSubjectButtonText: {
+        color: "white"
+    }
+});
+
+class Main extends Component {
     constructor(props) {
       super(props);
       this.state = {
         subjects: {}, // Subject-list
         modalVisible: false, // If the "Create subject"-modal is visible
+          colors: lightTheme
       };
       console.log("Initializing app...");
       let p = initialize(); // Getting data from the FileManagement 
       p.then((c) => {
         this.setState({subjects: c.subjects}); // Setting subject-list
+          this.updateColor();
       });
+    }
+
+    updateColor = () => {
+        getSettings().then((c) => {
+            let theme = c["lightTheme"]["value"] ? lightTheme : darkTheme;
+            this.setState({colors: theme});
+        });
     }
 
     // Adds listener to refresh subject-list when component gets focus
     componentDidMount() {
       this._unsubscribe = this.props.navigation.addListener('focus', () => {
        this.updateList();
+       this.updateColor();
       });
     }
   
@@ -100,8 +137,9 @@ class Main extends Component {
     }
   
     render() {
+        let colors = this.state.colors;
     return (
-        <View style={styles.container}>
+        <View style={[style.container, colors.container]}>
           <SubjectPopup
             visible={this.state.modalVisible}
             closeFunction={this.closeModal}
@@ -112,43 +150,17 @@ class Main extends Component {
             saveFunction={this.createNewSubject}
             />
   
-          <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+          <ScrollView contentContainerStyle={[style.scrollViewStyle, colors.scrollViewStyle]}>
             {this.printSubjectList()}
           </ScrollView>
-          <TouchableOpacity style={styles.newSubjectButton} onPress={this.newSubjectPress}>
+          <TouchableOpacity style={[style.newSubjectButton, colors.newSubjectButton]} onPress={this.newSubjectPress}>
             <View>
-              <Text style={styles.newSubjectButtonText}>Neues Fach</Text>
+              <Text style={[style.newSubjectButtonText, colors.newSubjectButtonText]}>Neues Fach</Text>
             </View>
           </TouchableOpacity>
         </View>
     );
       }
   }
-
-  const styles = StyleSheet.create({
-    container: {
-      padding: 5,
-      flex: 1,
-      backgroundColor: 'white'
-     },
-     scrollViewStyle: {
-        paddingBottom: 65
-     },
-     newSubjectButton: {
-      bottom: 10,
-      backgroundColor: "#32CD32",
-      paddingHorizontal: 20,
-      paddingVertical: 10,
-      borderRadius: 2,
-      alignSelf: "center",
-      borderWidth: 1,
-      borderColor: "gray",
-      position: "absolute",
-     },
-     newSubjectButtonText: {
-       fontSize: 20,
-       color: "black"
-     }
-  });
 
   export default Main;

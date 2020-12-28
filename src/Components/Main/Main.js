@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import SubjectButton from './SubjectButton';
-import { addSubject, deleteSubject, initialize, getSubjectList } from './../Utils/FileManagement';
-import SubjectPopup from './SubjectPopup';
+import { addSubject, deleteSubject, initialize, getSubjectList } from '../../Utils/FileManagement';
+import SubjectPopup from '../Popup/SubjectPopup';
 
 class Main extends Component {  
     constructor(props) {

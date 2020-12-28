@@ -4,9 +4,9 @@ import React from 'react';
 import {Button, StyleSheet, View} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Main from './Components/Main';
-import SubjectScreen from './Components/SubjectScreen';
-import Settings from "./Components/Settings";
+import Main from './Components/Main/Main';
+import SubjectScreen from './Components/SubjectScreen/SubjectScreen';
+import Settings from "./Components/Settings/Settings";
 
 const Stack = createStackNavigator();
 

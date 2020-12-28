@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, Button } from 'react-native';
-import {changeExercisePoints, deleteExercise, addExercise, editSubject, getSettings} from '../Utils/FileManagement';
+import {changeExercisePoints, deleteExercise, addExercise, editSubject, getSettings} from '../../Utils/FileManagement';
 import ExerciseView from './ExerciseView';
-import SubjectPopup from './SubjectPopup';
+import SubjectPopup from '../Popup/SubjectPopup';
 import { Chart, VerticalAxis, HorizontalAxis, Line, Area } from 'react-native-responsive-linechart'
 
 class SubjectScreen extends Component {  

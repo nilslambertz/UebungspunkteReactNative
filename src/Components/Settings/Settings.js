@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Alert, Button} from 'react-native';
 import SettingsItem from "./SettingsItem";
-import {changeSettings, getSettings, resetSettings} from "../Utils/FileManagement";
+import {changeSettings, getSettings, resetSettings} from "../../Utils/FileManagement";
 
 class Settings extends Component {
     constructor(props) {

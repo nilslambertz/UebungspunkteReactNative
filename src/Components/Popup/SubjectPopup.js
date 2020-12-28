@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, Modal, TextInput } from 'react-native';
-import { titleExists } from './../Utils/FileManagement';
+import { titleExists } from '../../Utils/FileManagement';
 
 function SubjectPopup({
     visible, // If popup is visible

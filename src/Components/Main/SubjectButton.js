@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import style from '../../Style/style';
 
 export default function SubjectButton({subject, id, deleteAlert, navigation}) {
     let needed = subject.needed; // Percent needed for this subject
@@ -20,49 +21,23 @@ export default function SubjectButton({subject, id, deleteAlert, navigation}) {
     }
 
     let uebungsText = count + " Übungen";
-    if(count == 0) uebungsText = "Noch keine Übung :'(";
-    if(count == 1) uebungsText = "Eine Übung";
+    if(count === 0) uebungsText = "Noch keine Übung :'(";
+    if(count === 1) uebungsText = "Eine Übung";
 
     return (
         <TouchableOpacity onLongPress={() => deleteAlert(id)} onPress={() => {
             navigation.navigate('SubjectScreen', { subject, id });
         }}>
-            <View style={styles.container}>
-                <View style={styles.percentView}>
-                    <Text style={styles.bigText}>{reachedPercent}%</Text>
-                    <Text style={styles.smallText}>/{needed}%</Text>
+            <View style={style.subjectButtonContainer}>
+                <View style={style.subjectButtonPercentView}>
+                    <Text style={style.subjectButtonBigText}>{reachedPercent}%</Text>
+                    <Text style={style.subjectButtonSmallText}>/{needed}%</Text>
                 </View>
-                <View style={styles.titleView}> 
-                    <Text style={styles.bigText}>{subject.title}</Text>
-                    <Text style={styles.smallText}>{uebungsText}</Text>
+                <View style={style.subjectButtonTitle}>
+                    <Text style={style.subjectButtonBigText}>{subject.title}</Text>
+                    <Text style={style.subjectButtonSmallText}>{uebungsText}</Text>
                 </View>
             </View>
         </TouchableOpacity>
     );
   }
-  
-  const styles = StyleSheet.create({
-    container: {
-      borderWidth: 1,
-      marginBottom: 5,
-      padding: 5,
-      flexDirection: "row",
-      borderColor: '#5C5C5C',
-      backgroundColor: 'white'
-     },
-     percentView: {
-        borderRightWidth: 1,
-        width: 70,
-        paddingRight: 5,
-        borderColor: "#5C5C5C"
-     },
-     bigText: {
-         fontSize: 25
-     },
-     smallText: {
-         color: "#7D7D7D"
-     },
-     titleView: {
-        paddingLeft: 10,
-     }
-  });

@@ -13,8 +13,16 @@ const initialConfig = {
 const initialSubjects = {};
 // Initial settings
 const initialSettings = {
-    "lightTheme": true,
-    "showGraph": true
+    "lightTheme": {
+        title: "Light-Theme",
+        description: "Helles Design aktiviert",
+        value: true
+    },
+    "drawGraph": {
+        title: "Graph anzeigen",
+        description: "Zeigt Graph der erhaltenen Übungspunkte in dem jeweiligen Fach an",
+        value: true
+    }
 };
 
 let config;
@@ -36,6 +44,22 @@ function resetAll() {
     FileSystem.deleteAsync(configFile).then(r => console.log("Deleted config-file"));
     FileSystem.deleteAsync(subjectFile).then(r => console.log("Deleted subject-file"));
     FileSystem.deleteAsync(settingsFile).then(r => console.log("Deleted settings-file"));
+}
+
+export function getSettings() {
+    return new Promise((resolve, reject) => {
+        if(settings === undefined) {
+            let p = initialize();
+            p.then((c) => {
+                resolve(c.settings);
+            }).catch((err) => {
+                console.log(err);
+                reject(err);
+            })
+        } else {
+            resolve(settings);
+        }
+    })
 }
 
 // Deletes subject with the given id
@@ -173,8 +197,12 @@ function load(file, title, defaultContent) {
                             obj[x + ""] = defaultContent[x + ""];
                         }
                     }
-                    resolve(obj);
-                    console.log("Loaded " + title + " successfully");
+                    writeFile(file, obj).then((c) => {
+                        resolve(obj);
+                        console.log("Loaded " + title + " successfully");
+                    }).catch((err) => {
+                        reject(err);
+                    })
                 }).catch(() => {
                     reject("Error while reading " + title + ". Path: " + file);
                 });

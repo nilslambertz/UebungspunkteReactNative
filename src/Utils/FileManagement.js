@@ -143,7 +143,7 @@ function updateSettings(set) {
             }
         }
         writeFile(settingsFile, set).then(() => {
-            return set;
+            resolve(set);
         }).catch((err) => {
             reject(err);
         });
@@ -158,7 +158,7 @@ export function getSubjectList() {
 // Loads files (if needed) and stores the values in the variables, returning the values
 export function initialize() {
     // If file(s) need to be loaded
-    if(config === undefined || subjects === undefined) {
+    if(config === undefined || subjects === undefined || settings === undefined) {
         console.log("Loading files...");
         let configLoad = load(configFile, "config", initialConfig); // Loading config
         let subjectLoad = load(subjectFile, "subjects", initialSubjects); // Loading subjects
@@ -171,14 +171,15 @@ export function initialize() {
                 subjectLoad.then((sub) => {
                     subjects = sub;
                     settingsLoad.then((set) => {
+                        settings = set;
                         updateSettings(set).then((c) => {
-                            settings = c;
+                            settings = set;
                             resolve({
                                 config,
                                 subjects,
                                 settings
                             });
-                        });
+                        }).catch(err => {console.log(err); reject(err)});
                     }).catch(err => {console.log(err); reject(err)});
                 }).catch(err => {console.log(err); reject(err)});
             }).catch(err => {console.log(err); reject(err)});

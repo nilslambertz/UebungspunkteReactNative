@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, Button } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, Alert, Button } from 'react-native';
 import {changeExercisePoints, deleteExercise, addExercise, editSubject, getSettings} from '../../Utils/FileManagement';
 import ExerciseView from './ExerciseView';
 import SubjectPopup from '../Popup/SubjectPopup';
 import { Chart, VerticalAxis, HorizontalAxis, Line, Area } from 'react-native-responsive-linechart'
+import style from '../../Style/style';
 
 class SubjectScreen extends Component {  
     data = [];
@@ -154,22 +155,22 @@ class SubjectScreen extends Component {
         let maxPt = (len === 0 ? 10 : this.state.subject.exercises[len-1][1]);
 
         return (
-            <View style={styles.container}>
-                <SubjectPopup 
+            <View style={style.container}>
+                <SubjectPopup
                     visible={this.state.modalVisible}
                     closeFunction={this.closeModal}
                     modalTitle={"Fach bearbeiten"}
                     titleText={"Titel (alt: \"" + this.state.subject.title + "\")"}
                     prozentText={"Benötigte Prozent (alt: " + this.state.subject.needed + ")"}
                     numberText={"Anzahl der Übungen (alt: " + this.state.subject.number + ")"}
-                    saveFunction={this.requestSubjectEdit}              
+                    saveFunction={this.requestSubjectEdit}
                     currentTitle={this.state.subject.title}
                     currentProzent={this.state.subject.needed + ""}
                     currentNumber={this.state.subject.number + ""}
-                ></SubjectPopup>
+                />
             
                <ScrollView
-                contentContainerStyle={styles.scrollViewStyle}
+                contentContainerStyle={style.containerScrollView}
                 ref={ref => this.scrollView = ref} 
                 >
 
@@ -201,13 +202,20 @@ class SubjectScreen extends Component {
                   {
                      exerciseList
                   }
-                  { this.state.newExercise == true &&
-                      <ExerciseView key={"newExercise"} index={len} points={0} max={maxPt} pressFunction={this.requestExerciseAdd} longPressFunction={() => {}} newExercise={true}></ExerciseView>
+                  { this.state.newExercise === true &&
+                      <ExerciseView
+                          key={"newExercise"}
+                          index={len}
+                          points={0}
+                          max={maxPt}
+                          pressFunction={this.requestExerciseAdd}
+                          longPressFunction={() => {}}
+                          newExercise={true}/>
                   }
                 </ScrollView>
-                <TouchableOpacity style={styles.newExerciseButton} onPress={this.newSubjectPress}>
+                <TouchableOpacity style={style.bottomButton} onPress={this.newSubjectPress}>
                     <View>
-                        <Text style={styles.newExerciseButtonText} onPress={this.newExercisePress}>Übung hinzufügen</Text>
+                        <Text style={style.bottomButtonText} onPress={this.newExercisePress}>Übung hinzufügen</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -216,29 +224,3 @@ class SubjectScreen extends Component {
 }
 
 export default SubjectScreen;
-
-const styles = StyleSheet.create({
-    container: {
-      padding: 5,
-      flex: 1,
-      backgroundColor: 'white'
-     },
-     scrollViewStyle: {
-        paddingBottom: 65
-     },
-     newExerciseButton: {
-      bottom: 10,
-      backgroundColor: "#32CD32",
-      paddingHorizontal: 20,
-      paddingVertical: 10,
-      borderRadius: 2,
-      alignSelf: "center",
-      borderWidth: 1,
-      borderColor: "gray",
-      position: "absolute"
-     },
-     newExerciseButtonText: {
-       fontSize: 20,
-       color: "black"
-     }
-});

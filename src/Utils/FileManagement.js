@@ -20,7 +20,7 @@ const initialSettings = {
     },
     "drawGraph": {
         title: "Graph anzeigen",
-        description: "Zeigt Graph der erhaltenen Übungspunkte in dem jeweiligen Fach an",
+        description: "Zeigt Graph der erhaltenen Übungspunkte in dem jeweiligen Fach an (ab 3 Übungen)",
         value: true
     }
 };
@@ -164,6 +164,18 @@ function updateSettings() {
         }).catch((err) => {
             reject(err);
         });
+    })
+}
+
+// Resets settings
+export function resetSettings() {
+    return new Promise((resolve, reject) => {
+        settings = initialSettings;
+        writeFile(settingsFile, settings).then((c) => {
+            resolve(settings);
+        }).catch((err) => {
+            reject(err);
+        })
     })
 }
 

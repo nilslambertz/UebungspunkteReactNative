@@ -134,6 +134,22 @@ export function editSubject(id, title, percent, number) {
     });
 }
 
+function updateSettings(set) {
+    return new Promise((resolve, reject) => {
+        for(let elem in set) {
+            for(let inner in set[elem + ""]) {
+                set[elem + ""]["description"] = initialSettings[elem + ""]["description"];
+                set[elem + ""]["title"] = initialSettings[elem + ""]["title"];
+            }
+        }
+        writeFile(settingsFile, set).then(() => {
+            return set;
+        }).catch((err) => {
+            reject(err);
+        });
+    })
+}
+
 // Returns list of subjects or undefined if called before files are loaded
 export function getSubjectList() {
     return subjects;
@@ -155,11 +171,13 @@ export function initialize() {
                 subjectLoad.then((sub) => {
                     subjects = sub;
                     settingsLoad.then((set) => {
-                        settings = set;
-                        resolve({
-                            config,
-                            subjects,
-                            settings
+                        updateSettings(set).then((c) => {
+                            settings = c;
+                            resolve({
+                                config,
+                                subjects,
+                                settings
+                            });
                         });
                     }).catch(err => {console.log(err); reject(err)});
                 }).catch(err => {console.log(err); reject(err)});

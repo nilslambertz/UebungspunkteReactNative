@@ -4,19 +4,7 @@ import SubjectButton from './SubjectButton';
 import {addSubject, deleteSubject, initialize, getSubjectList, getSettings} from '../../Utils/FileManagement';
 import SubjectPopup from '../Popup/SubjectPopup';
 import style from '../../Style/style';
-
-const lightTheme = StyleSheet.create({
-    container: {
-        backgroundColor: 'white'
-    },
-    newSubjectButton: {
-        backgroundColor: "#32CD32",
-        borderColor: "gray",
-    },
-    newSubjectButtonText: {
-        color: "black"
-    }
-});
+import lightTheme from "../../Style/lightTheme";
 
 const darkTheme = StyleSheet.create({
     container: {
@@ -35,9 +23,9 @@ class Main extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        subjects: {}, // Subject-list
-        modalVisible: false, // If the "Create subject"-modal is visible
-          colors: lightTheme
+          subjects: {}, // Subject-list
+          modalVisible: false, // If the "Create subject"-modal is visible
+          theme: lightTheme
       };
       console.log("Initializing app...");
       let p = initialize(); // Getting data from the FileManagement 
@@ -49,8 +37,8 @@ class Main extends Component {
 
     updateColor = () => {
         getSettings().then((c) => {
-            let theme = c["lightTheme"]["value"] ? lightTheme : darkTheme;
-            this.setState({colors: theme});
+            let t = c["lightTheme"]["value"] ? lightTheme : darkTheme;
+            this.setState({theme: t});
         });
     }
 
@@ -137,9 +125,9 @@ class Main extends Component {
     }
   
     render() {
-        let colors = this.state.colors;
+        let theme = this.state.theme;
     return (
-        <View style={[style.container, colors.container]}>
+        <View style={[style.container, theme.container]}>
           <SubjectPopup
             visible={this.state.modalVisible}
             closeFunction={this.closeModal}
@@ -150,12 +138,12 @@ class Main extends Component {
             saveFunction={this.createNewSubject}
             />
   
-          <ScrollView contentContainerStyle={[style.containerScrollView, colors.scrollViewStyle]}>
+          <ScrollView contentContainerStyle={[style.containerScrollView, theme.scrollViewStyle]}>
             {this.printSubjectList()}
           </ScrollView>
-          <TouchableOpacity style={[style.bottomButton, colors.newSubjectButton]} onPress={this.newSubjectPress}>
+          <TouchableOpacity style={[style.bottomButton, theme.newSubjectButton]} onPress={this.newSubjectPress}>
             <View>
-              <Text style={[style.bottomButtonText, colors.newSubjectButtonText]}>Neues Fach</Text>
+              <Text style={[style.bottomButtonText, theme.newSubjectButtonText]}>Neues Fach</Text>
             </View>
           </TouchableOpacity>
         </View>

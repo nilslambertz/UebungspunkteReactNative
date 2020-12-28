@@ -28,20 +28,16 @@ export default StyleSheet.create({
         marginBottom: 5,
         padding: 5,
         flexDirection: "row",
-        borderColor: '#5C5C5C',
-        backgroundColor: 'white'
     },
     subjectButtonPercentView: {
         borderRightWidth: 1,
         width: 70,
         paddingRight: 5,
-        borderColor: "#5C5C5C"
     },
     subjectButtonBigText: {
         fontSize: 25
     },
     subjectButtonSmallText: {
-        color: "#7D7D7D"
     },
     subjectButtonTitle: {
         paddingLeft: 10,

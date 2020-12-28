@@ -10,5 +10,20 @@ export default StyleSheet.create({
     },
     newSubjectButtonText: {
         color: "black"
-    }
+    },
+    subjectButtonContainer: {
+        backgroundColor: 'white',
+        borderColor: '#5C5C5C',
+    },
+    subjectButtonPercentView: {
+        borderColor: "#5C5C5C"
+    },
+    subjectButtonBigText: {
+        color: "black"
+    },
+    subjectButtonSmallText: {
+        color: "#7D7D7D"
+    },
+    subjectButtonTitle: {
+    },
 });

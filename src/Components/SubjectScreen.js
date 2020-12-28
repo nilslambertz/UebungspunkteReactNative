@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, Button } from 'react-native';
-import { changeExercisePoints, deleteExercise, addExercise, editSubject } from '../Utils/FileManagement';
+import {changeExercisePoints, deleteExercise, addExercise, editSubject, getSettings} from '../Utils/FileManagement';
 import ExerciseView from './ExerciseView';
 import SubjectPopup from './SubjectPopup';
 import { Chart, VerticalAxis, HorizontalAxis, Line, Area } from 'react-native-responsive-linechart'
@@ -18,8 +18,14 @@ class SubjectScreen extends Component {
           updateKey: 0, // Key used to update the list (so React needs to refresh the screen)
           newExercise: false, // If the "Add exercise"-button was pressed
           modalVisible: false, // If the "Edit subject"-modal is visible
+          drawGraph: false // If the graph should be drawn
         }
         this.createData();
+
+      getSettings().then((c) => {
+          let draw = c["drawGraph"]["value"];
+          this.setState({drawGraph: draw});
+      })
     }
 
     createData = () => {
@@ -167,7 +173,7 @@ class SubjectScreen extends Component {
                 ref={ref => this.scrollView = ref} 
                 >
 
-               { this.state.subject.exercises.length > 2 && 
+               { this.state.drawGraph && this.state.subject.exercises.length > 2 &&
                    <Chart
                     style={{ height: 200, width: '100%', marginBottom: 5 }}
                     xDomain={{ min: 1, max: this.data.length }}

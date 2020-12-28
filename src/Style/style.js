@@ -125,5 +125,52 @@ export default StyleSheet.create({
         marginVertical: 10,
         borderColor: "#D2D2D2",
         borderLeftWidth: 1
+    },
+
+    // Style for ExerciseView
+    exerciseViewContainer: {
+        borderWidth: 1,
+        marginBottom: 5,
+        padding: 5,
+        flexDirection: "row",
+        borderColor: '#5C5C5C',
+        backgroundColor: 'white'
+    },
+    newExercise: {
+        backgroundColor: "#EBB1B1"
+    },
+    exerciseNumber: {
+        borderRightWidth: 1,
+        justifyContent: "center",
+        width: 50,
+        paddingRight: 5,
+        borderColor: "#5C5C5C"
+    },
+    exerciseNumberText: {
+        fontSize: 25,
+        textAlign: "center"
+    },
+    exerciseContent: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        paddingHorizontal: 10
+    },
+    exerciseDivider: {
+        fontSize: 30,
+        paddingHorizontal: 10
+    },
+    exerciseInput: {
+        fontSize: 20,
+        borderColor: "gray",
+        flex: 1,
+        borderWidth: 1,
+        padding: 5
+    },
+    exerciseOkayButton: {
+        paddingLeft: 10,
+        justifyContent: "center",
+        borderLeftWidth: 1,
+        borderColor: "#5C5C5C"
     }
 });

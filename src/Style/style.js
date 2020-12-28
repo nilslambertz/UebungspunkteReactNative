@@ -94,5 +94,36 @@ export default StyleSheet.create({
     popupError: {
         color: "red",
         fontSize: 16
+    },
+
+    // Style for Settings
+    settingsResetButton: {
+        marginTop: 40,
+        marginHorizontal: 50
+    },
+    settingsItem: {
+        borderBottomWidth: 1,
+        marginHorizontal: 5,
+        borderColor: "black",
+        flexDirection: "row",
+    },
+    settingsItemLeft: {
+        borderColor: "black",
+        padding: 5,
+        flex: 1
+    },
+    settingsItemTitle: {
+        fontSize: 30
+    },
+    settingsItemDescription: {
+        fontSize: 15,
+        color: "#606060"
+    },
+    settingsItemRight: {
+        justifyContent: 'center',
+        paddingLeft: 10,
+        marginVertical: 10,
+        borderColor: "#D2D2D2",
+        borderLeftWidth: 1
     }
 });

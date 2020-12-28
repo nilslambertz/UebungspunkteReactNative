@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Alert, Button} from 'react-native';
+import { View, ScrollView, Alert, Button} from 'react-native';
 import SettingsItem from "./SettingsItem";
 import {changeSettings, getSettings, resetSettings} from "../../Utils/FileManagement";
+import style from '../../Style/style';
 
 class Settings extends Component {
     constructor(props) {
@@ -63,19 +64,12 @@ class Settings extends Component {
         return (
             <ScrollView>
                 { this.printSettingsList() }
-                <View style={styles.resetButton}>
+                <View style={style.settingsResetButton}>
                     <Button color={"red"} onPress={this.requestSettingsReset} title={"Einstellungen zurücksetzen"}/>
                 </View>
             </ScrollView>
         )
     }
 }
-
-const styles = StyleSheet.create({
-    resetButton: {
-        marginTop: 40,
-        marginHorizontal: 50
-    }
-});
 
 export default Settings;

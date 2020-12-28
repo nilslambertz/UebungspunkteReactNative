@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Alert, Switch} from 'react-native';
+import React from 'react';
+import { Text, View, Alert, Switch} from 'react-native';
+import style from '../../Style/style';
 
 export default function SettingsItem({id, title, description, value, changeFunction}) {
     function changeValue(x) {
@@ -7,42 +8,14 @@ export default function SettingsItem({id, title, description, value, changeFunct
     }
 
     return (
-        <View style={styles.settingsItem}>
-            <View style={styles.settingsItemLeft}>
-                <Text style={styles.settingsItemTitle}>{title}</Text>
-                <Text style={styles.settingsItemDescription}>{description}</Text>
+        <View style={style.settingsItem}>
+            <View style={style.settingsItemLeft}>
+                <Text style={style.settingsItemTitle}>{title}</Text>
+                <Text style={style.settingsItemDescription}>{description}</Text>
             </View>
-            <View style={styles.settingsItemRight}>
+            <View style={style.settingsItemRight}>
                 <Switch value={value} onValueChange={changeValue}/>
             </View>
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    settingsItem: {
-        borderBottomWidth: 1,
-        marginHorizontal: 5,
-        borderColor: "black",
-        flexDirection: "row",
-    },
-    settingsItemLeft: {
-        borderColor: "black",
-        padding: 5,
-        flex: 1
-    },
-    settingsItemTitle: {
-        fontSize: 30
-    },
-    settingsItemDescription: {
-        fontSize: 15,
-        color: "#606060"
-    },
-    settingsItemRight: {
-        justifyContent: 'center',
-        paddingLeft: 10,
-        marginVertical: 10,
-        borderColor: "#D2D2D2",
-        borderLeftWidth: 1
-    }
-});

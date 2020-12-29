@@ -4,6 +4,9 @@ export default StyleSheet.create({
     container: {
         backgroundColor: 'white'
     },
+    containerScrollView: {
+
+    },
     newSubjectButton: {
         backgroundColor: "#32CD32",
         borderColor: "gray",
@@ -48,5 +51,23 @@ export default StyleSheet.create({
     },
     popupError: {
         color: "red",
+    },
+    settingsResetView: {
+    },
+    settingsResetButton: {
+    },
+    settingsItem: {
+        borderColor: "black",
+    },
+    settingsItemLeft: {
+    },
+    settingsItemTitle: {
+        color: "black"
+    },
+    settingsItemDescription: {
+        color: "#606060"
+    },
+    settingsItemRight: {
+        borderColor: "#D2D2D2",
     },
 });

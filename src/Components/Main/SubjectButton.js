@@ -26,7 +26,7 @@ export default function SubjectButton({subject, id, deleteAlert, navigation, the
 
     return (
         <TouchableOpacity onLongPress={() => deleteAlert(id)} onPress={() => {
-            navigation.navigate('SubjectScreen', { subject, id });
+            navigation.navigate('SubjectScreen', { subject, id, theme });
         }}>
             <View style={[style.subjectButtonContainer, theme.subjectButtonContainer]}>
                 <View style={[style.subjectButtonPercentView, theme.subjectButtonPercentView]}>

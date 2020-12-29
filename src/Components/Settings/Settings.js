@@ -20,9 +20,22 @@ class Settings extends Component {
         })
     }
 
+    updateHeader = () => {
+        this.props.navigation.setOptions({
+            headerStyle: [style.header, this.state.theme.header],
+            headerTitleStyle: this.state.theme.headerTitle
+        });
+    }
+
+    componentDidMount() {
+        this.updateHeader();
+    }
+
     updateColor = () => {
         let t = this.state.settings["lightTheme"]["value"] ? lightTheme : darkTheme;
-        this.setState({theme: t});
+        this.setState({theme: t}, () => {
+            this.updateHeader();
+        });
     }
 
     changeValue = (id, newValue) => {

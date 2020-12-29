@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, Button} from 'react-native';
 import SubjectButton from './SubjectButton';
 import {addSubject, deleteSubject, initialize, getSubjectList, getSettings} from '../../Utils/FileManagement';
 import SubjectPopup from '../Popup/SubjectPopup';
@@ -26,12 +26,22 @@ class Main extends Component {
     updateColor = () => {
         getSettings().then((c) => {
             let t = c["lightTheme"]["value"] ? lightTheme : darkTheme;
-            this.setState({theme: t});
+            this.setState({theme: t}, () => {
+                this.updateHeader();
+            });
+        });
+    }
+
+    updateHeader = () => {
+        this.props.navigation.setOptions({
+            headerStyle: [style.header, this.state.theme.header],
+            headerTitleStyle: this.state.theme.headerTitle
         });
     }
 
     // Adds listener to refresh subject-list when component gets focus
     componentDidMount() {
+        this.updateHeader();
       this._unsubscribe = this.props.navigation.addListener('focus', () => {
        this.updateList();
        this.updateColor();

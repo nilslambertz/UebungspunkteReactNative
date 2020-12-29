@@ -46,9 +46,18 @@ class SubjectScreen extends Component {
         }
     }
 
+    updateHeader = () => {
+        this.props.navigation.setOptions({
+            headerStyle: [style.header, this.state.theme.header],
+            headerTitleStyle: this.state.theme.headerTitle
+        });
+    }
+
     // Sets the header-text to the subject-title
     componentDidMount() {
-        this.props.navigation.setOptions({headerRight: (p) => (
+        this.updateHeader();
+        this.props.navigation.setOptions({
+            headerRight: (p) => (
             <View style={{marginRight: 10}}><Button title="Anpassen" onPress={() => {
                 this.setState({modalVisible: true});
             }}/></View>

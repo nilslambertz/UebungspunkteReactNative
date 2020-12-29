@@ -46,8 +46,7 @@ export default StyleSheet.create({
     // Style for Popup
     popupShadow: {
         flex: 1,
-        position: 'relative',
-        backgroundColor: "rgba(0,0,0,0.7)"
+        position: 'relative'
     },
     popupContainer: {
         width: "100%",
@@ -57,7 +56,6 @@ export default StyleSheet.create({
         borderTopRightRadius: 20,
         padding: 20,
         flexDirection: "column",
-        backgroundColor: "#EFEFEF",
         height: "65%",
         flexGrow: 1
     },
@@ -67,7 +65,6 @@ export default StyleSheet.create({
         margin: 30,
     },
     popupHeader: {
-        color: "black",
         fontSize: 30,
         textDecorationLine: "underline",
         marginBottom: 10,
@@ -77,18 +74,14 @@ export default StyleSheet.create({
     },
     popupInput: {
         height: 40,
-        borderColor: 'gray',
         borderWidth: 1,
-        color: "black",
         paddingHorizontal: 10
     },
     popupText: {
-        color: "black",
         fontSize: 20,
         marginBottom: 5
     },
     popupError: {
-        color: "red",
         fontSize: 16
     },
 

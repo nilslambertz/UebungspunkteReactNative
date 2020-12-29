@@ -26,4 +26,27 @@ export default StyleSheet.create({
     },
     subjectButtonTitle: {
     },
+    popupShadow: {
+        backgroundColor: "rgba(0,0,0,0.7)"
+    },
+    popupContainer: {
+        backgroundColor: "#EFEFEF",
+    },
+    popupButtonView: {
+    },
+    popupHeader: {
+        color: "black",
+    },
+    popupSection: {
+    },
+    popupInput: {
+        borderColor: 'gray',
+        color: "black",
+    },
+    popupText: {
+        color: "black",
+    },
+    popupError: {
+        color: "red",
+    },
 });

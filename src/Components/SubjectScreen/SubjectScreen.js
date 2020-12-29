@@ -174,8 +174,8 @@ class SubjectScreen extends Component {
                 />
 
                 <ScrollView
-                    contentContainerStyle={[style.containerScrollView, theme.containerScrollView]}>
-                ref={ref => this.scrollView = ref} 
+                    contentContainerStyle={[style.containerScrollView, theme.containerScrollView]}
+                    ref={ref => this.scrollView = ref}
                 >
 
                { this.state.drawGraph && this.state.subject.exercises.length > 2 &&

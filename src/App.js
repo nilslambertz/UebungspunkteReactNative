@@ -10,6 +10,18 @@ import Settings from "./Components/Settings/Settings";
 
 const Stack = createStackNavigator();
 
+const config = {
+    animation: 'spring',
+    config: {
+        stiffness: 1000,
+        damping: 500,
+        mass: 5,
+        overshootClamping: true,
+        restDisplacementThreshold: 0.01,
+        restSpeedThreshold: 0.01,
+    },
+};
+
 function App() {
   return(
     <NavigationContainer>
@@ -18,9 +30,22 @@ function App() {
         <Stack.Screen name="Übersicht" component={Main} options={({navigation, route}) => ({headerRight: (p) => (
             <View style={{marginRight: 10}}><Button title="Einstellungen" onPress={() => {
                 navigation.navigate("Einstellungen");
-        }}/></View>)})} />
-        <Stack.Screen name="SubjectScreen" component={SubjectScreen}/>
-        <Stack.Screen name="Einstellungen" component={Settings}/>
+        }}/></View>), transitionSpec: {
+            open: config,
+            close: config,
+        }})} />
+        <Stack.Screen name="SubjectScreen" component={SubjectScreen} options={{
+            transitionSpec: {
+                open: config,
+                close: config,
+            },
+        }}/>
+        <Stack.Screen name="Einstellungen" component={Settings} options={{
+            transitionSpec: {
+                open: config,
+                close: config,
+            },
+        }}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

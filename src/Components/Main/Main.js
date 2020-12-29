@@ -137,6 +137,7 @@ class Main extends Component {
             prozentText={"Benötigte Prozent"}
             numberText={"Anzahl der Übungen"}
             saveFunction={this.createNewSubject}
+            theme={theme}
             />
   
           <ScrollView contentContainerStyle={[style.containerScrollView, theme.scrollViewStyle]}>

@@ -3,17 +3,26 @@ import { View, ScrollView, Alert, Button} from 'react-native';
 import SettingsItem from "./SettingsItem";
 import {changeSettings, getSettings, resetSettings} from "../../Utils/FileManagement";
 import style from '../../Style/style';
+import lightTheme from "../../Style/lightTheme";
+import SubjectPopup from "../Popup/SubjectPopup";
 
 class Settings extends Component {
     constructor(props) {
         super(props);
         let p = getSettings();
         this.state = {
-            settings: {}
+            settings: {},
+            theme: lightTheme
         }
         p.then((c) => {
             this.setState({settings: c});
+            this.updateColor();
         })
+    }
+
+    updateColor = () => {
+        let t = this.state.settings["lightTheme"]["value"] ? lightTheme : null;
+        this.setState({theme: t});
     }
 
     changeValue = (id, newValue) => {
@@ -28,9 +37,10 @@ class Settings extends Component {
     printSettingsList = () => {
         let settings = this.state.settings;
         let changeFunction = this.changeValue;
+        let theme = this.state.theme;
         return Object.keys(settings).map(function(c, i) {
             let obj = settings[c];
-            return <SettingsItem key={c} id={c} value={obj["value"]} description={obj["description"]} title={obj["title"]} changeFunction={changeFunction}/>
+            return <SettingsItem key={c} id={c} value={obj["value"]} description={obj["description"]} title={obj["title"]} changeFunction={changeFunction} theme={theme}/>
         });
     }
 
@@ -61,13 +71,16 @@ class Settings extends Component {
     }
 
     render() {
+        let theme = this.state.theme;
         return (
-            <ScrollView>
-                { this.printSettingsList() }
-                <View style={style.settingsResetButton}>
-                    <Button color={"red"} onPress={this.requestSettingsReset} title={"Einstellungen zurücksetzen"}/>
-                </View>
-            </ScrollView>
+            <View style={[style.container, theme.container]}>
+                <ScrollView contentContainerStyle={[style.containerScrollView, theme.containerScrollView]}>
+                    { this.printSettingsList() }
+                    <View style={[style.settingsResetView, theme.settingsResetView]}>
+                        <Button color={"red"} onPress={this.requestSettingsReset} title={"Einstellungen zurücksetzen"}/>
+                    </View>
+                </ScrollView>
+            </View>
         )
     }
 }

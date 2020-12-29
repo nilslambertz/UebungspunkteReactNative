@@ -16,6 +16,7 @@ class SubjectScreen extends Component {
       this.state = {
           id: params.id, // ID of the subject
           subject: params.subject, // Subject-object
+          theme: params.theme, // Current theme
           updateKey: 0, // Key used to update the list (so React needs to refresh the screen)
           newExercise: false, // If the "Add exercise"-button was pressed
           modalVisible: false, // If the "Edit subject"-modal is visible
@@ -154,8 +155,10 @@ class SubjectScreen extends Component {
 
         let maxPt = (len === 0 ? 10 : this.state.subject.exercises[len-1][1]);
 
+        let theme = this.state.theme;
+
         return (
-            <View style={style.container}>
+            <View style={[style.container, theme.container]}>
                 <SubjectPopup
                     visible={this.state.modalVisible}
                     closeFunction={this.closeModal}
@@ -167,10 +170,11 @@ class SubjectScreen extends Component {
                     currentTitle={this.state.subject.title}
                     currentProzent={this.state.subject.needed + ""}
                     currentNumber={this.state.subject.number + ""}
+                    theme={theme}
                 />
-            
-               <ScrollView
-                contentContainerStyle={style.containerScrollView}
+
+                <ScrollView
+                    contentContainerStyle={[style.containerScrollView, theme.containerScrollView]}>
                 ref={ref => this.scrollView = ref} 
                 >
 
@@ -210,12 +214,14 @@ class SubjectScreen extends Component {
                           max={maxPt}
                           pressFunction={this.requestExerciseAdd}
                           longPressFunction={() => {}}
-                          newExercise={true}/>
+                          newExercise={true}
+                          theme={theme}
+                      />
                   }
                 </ScrollView>
-                <TouchableOpacity style={style.bottomButton} onPress={this.newSubjectPress}>
+                <TouchableOpacity style={[style.bottomButton, theme.bottomButton]} onPress={this.newSubjectPress}>
                     <View>
-                        <Text style={style.bottomButtonText} onPress={this.newExercisePress}>Übung hinzufügen</Text>
+                        <Text style={[style.bottomButtonText, theme.bottomButtonText]} onPress={this.newExercisePress}>Übung hinzufügen</Text>
                     </View>
                 </TouchableOpacity>
             </View>

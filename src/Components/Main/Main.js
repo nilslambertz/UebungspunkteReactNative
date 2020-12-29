@@ -140,7 +140,7 @@ class Main extends Component {
             theme={theme}
             />
   
-          <ScrollView contentContainerStyle={[style.containerScrollView, theme.scrollViewStyle]}>
+          <ScrollView contentContainerStyle={[style.containerScrollView, theme.containerScrollView]}>
             {this.printSubjectList()}
           </ScrollView>
           <TouchableOpacity style={[style.bottomButton, theme.newSubjectButton]} onPress={this.newSubjectPress}>

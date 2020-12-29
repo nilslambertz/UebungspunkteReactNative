@@ -5,19 +5,7 @@ import {addSubject, deleteSubject, initialize, getSubjectList, getSettings} from
 import SubjectPopup from '../Popup/SubjectPopup';
 import style from '../../Style/style';
 import lightTheme from "../../Style/lightTheme";
-
-const darkTheme = StyleSheet.create({
-    container: {
-        backgroundColor: '#343434'
-    },
-    newSubjectButton: {
-        backgroundColor: "#058902",
-        borderColor: "#BCBCBC",
-    },
-    newSubjectButtonText: {
-        color: "white"
-    }
-});
+import darkTheme from "../../Style/darkTheme";
 
 class Main extends Component {
     constructor(props) {

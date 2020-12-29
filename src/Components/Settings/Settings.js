@@ -4,7 +4,7 @@ import SettingsItem from "./SettingsItem";
 import {changeSettings, getSettings, resetSettings} from "../../Utils/FileManagement";
 import style from '../../Style/style';
 import lightTheme from "../../Style/lightTheme";
-import SubjectPopup from "../Popup/SubjectPopup";
+import darkTheme from "../../Style/darkTheme";
 
 class Settings extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class Settings extends Component {
     }
 
     updateColor = () => {
-        let t = this.state.settings["lightTheme"]["value"] ? lightTheme : null;
+        let t = this.state.settings["lightTheme"]["value"] ? lightTheme : darkTheme;
         this.setState({theme: t});
     }
 

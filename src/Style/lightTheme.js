@@ -70,4 +70,26 @@ export default StyleSheet.create({
     settingsItemRight: {
         borderColor: "#D2D2D2",
     },
+    exerciseViewContainer: {
+        borderColor: '#5C5C5C',
+        backgroundColor: 'white'
+    },
+    newExercise: {
+        backgroundColor: "#EBB1B1"
+    },
+    exerciseNumber: {
+        borderColor: "#5C5C5C"
+    },
+    exerciseNumberText: {
+    },
+    exerciseContent: {
+    },
+    exerciseDivider: {
+    },
+    exerciseInput: {
+        borderColor: "gray",
+    },
+    exerciseOkayButton: {
+        borderColor: "#5C5C5C"
+    }
 });

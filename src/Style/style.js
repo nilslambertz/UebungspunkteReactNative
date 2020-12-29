@@ -118,18 +118,14 @@ export default StyleSheet.create({
         marginBottom: 5,
         padding: 5,
         flexDirection: "row",
-        borderColor: '#5C5C5C',
-        backgroundColor: 'white'
     },
     newExercise: {
-        backgroundColor: "#EBB1B1"
     },
     exerciseNumber: {
         borderRightWidth: 1,
         justifyContent: "center",
         width: 50,
         paddingRight: 5,
-        borderColor: "#5C5C5C"
     },
     exerciseNumberText: {
         fontSize: 25,
@@ -147,7 +143,6 @@ export default StyleSheet.create({
     },
     exerciseInput: {
         fontSize: 20,
-        borderColor: "gray",
         flex: 1,
         borderWidth: 1,
         padding: 5
@@ -156,6 +151,5 @@ export default StyleSheet.create({
         paddingLeft: 10,
         justifyContent: "center",
         borderLeftWidth: 1,
-        borderColor: "#5C5C5C"
     }
 });

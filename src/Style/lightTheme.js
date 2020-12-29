@@ -7,11 +7,11 @@ export default StyleSheet.create({
     containerScrollView: {
 
     },
-    newSubjectButton: {
+    bottomButton: {
         backgroundColor: "#32CD32",
         borderColor: "gray",
     },
-    newSubjectButtonText: {
+    bottomButtonText: {
         color: "black"
     },
     subjectButtonContainer: {

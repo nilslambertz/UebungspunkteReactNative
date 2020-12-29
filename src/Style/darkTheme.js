@@ -2,30 +2,29 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
     container: {
-        backgroundColor: 'white'
+        backgroundColor: '#292929'
     },
     containerScrollView: {
-
     },
     bottomButton: {
-        backgroundColor: "#32CD32",
-        borderColor: "gray",
+        backgroundColor: "#0A9900",
+        borderColor: "#E9E9E9",
     },
     bottomButtonText: {
-        color: "black"
+        color: "white"
     },
     subjectButtonContainer: {
-        backgroundColor: 'white',
-        borderColor: '#5C5C5C',
+        backgroundColor: '#292929',
+        borderColor: '#898989',
     },
     subjectButtonPercentView: {
-        borderColor: "#5C5C5C"
+        borderColor: "#898989"
     },
     subjectButtonBigText: {
-        color: "black"
+        color: "white"
     },
     subjectButtonSmallText: {
-        color: "#7D7D7D"
+        color: "#B5B5B5"
     },
     subjectButtonTitle: {
     },
@@ -33,21 +32,22 @@ export default StyleSheet.create({
         backgroundColor: "rgba(0,0,0,0.7)"
     },
     popupContainer: {
-        backgroundColor: "#EFEFEF",
+        backgroundColor: "#212121",
     },
     popupButtonView: {
     },
     popupHeader: {
-        color: "black",
+        color: "white",
     },
     popupSection: {
     },
     popupInput: {
-        borderColor: 'gray',
-        color: "black",
+        backgroundColor: "#3A3A3A",
+        borderColor: '#7B7B7B',
+        color: "white",
     },
     popupText: {
-        color: "black",
+        color: "white",
     },
     popupError: {
         color: "red",
@@ -57,37 +57,41 @@ export default StyleSheet.create({
     settingsResetButton: {
     },
     settingsItem: {
-        borderColor: "black",
+        borderColor: "#8E8E8E",
     },
     settingsItemLeft: {
     },
     settingsItemTitle: {
-        color: "black"
+        color: "white"
     },
     settingsItemDescription: {
-        color: "#606060"
+        color: "#ACACAC"
     },
     settingsItemRight: {
-        borderColor: "#D2D2D2",
+        borderColor: "#6E6E6E",
     },
     exerciseViewContainer: {
-        borderColor: '#5C5C5C',
-        backgroundColor: 'white'
+        backgroundColor: '#292929',
+        borderColor: '#898989',
     },
     newExercise: {
-        backgroundColor: "#EBB1B1"
+        backgroundColor: "#673535"
     },
     exerciseNumber: {
         borderColor: "#5C5C5C"
     },
     exerciseNumberText: {
+        color: "white"
     },
     exerciseContent: {
     },
     exerciseDivider: {
+        color: "#595959"
     },
     exerciseInput: {
-        borderColor: "gray",
+        color: "white",
+        borderColor: "#676767",
+        backgroundColor: "#3A3A3A"
     },
     exerciseOkayButton: {
         borderColor: "#5C5C5C"

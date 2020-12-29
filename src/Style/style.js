@@ -1,6 +1,11 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
+    // Style for header
+    header: {
+        borderBottomWidth: 1
+    },
+
     // Style for container with ScrollView
     container: {
         flex: 1,

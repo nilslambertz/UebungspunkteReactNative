@@ -27,7 +27,9 @@ class Settings extends Component {
 
     changeValue = (id, newValue) => {
         changeSettings(id, newValue).then((s) => {
-            this.setState({settings: s});
+            this.setState({settings: s}, () => {
+                this.updateColor();
+            });
         }).catch((err) => {
             alert("Error while changing setting!");
             console.log(err);

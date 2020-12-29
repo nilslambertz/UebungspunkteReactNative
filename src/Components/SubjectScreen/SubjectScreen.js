@@ -147,15 +147,15 @@ class SubjectScreen extends Component {
     render() {
         const exerciseList = [];
         let len = this.state.subject.exercises.length;
+        let theme = this.state.theme;
 
         for(let i = 0; i < len; i++) {
             let c = this.state.subject.exercises[i];
-            exerciseList.push(<ExerciseView key={this.state.updateKey.toString() + "-" + i.toString()} index={i} points={c[0]} max={c[1]} pressFunction={this.changePoints} longPressFunction={this.exerciseDeleteAlert}/>)
+            exerciseList.push(<ExerciseView key={this.state.updateKey.toString() + "-" + i.toString()} theme={theme} index={i} points={c[0]} max={c[1]} pressFunction={this.changePoints} longPressFunction={this.exerciseDeleteAlert}/>)
         }
 
         let maxPt = (len === 0 ? 10 : this.state.subject.exercises[len-1][1]);
 
-        let theme = this.state.theme;
 
         return (
             <View style={[style.container, theme.container]}>

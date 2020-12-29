@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
+    header: {
+        backgroundColor: "#D8D8D8"
+    },
     container: {
         backgroundColor: 'white'
     },

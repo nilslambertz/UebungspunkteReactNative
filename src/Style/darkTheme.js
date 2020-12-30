@@ -101,5 +101,8 @@ export default StyleSheet.create({
     },
     exerciseOkayButton: {
         borderColor: "#5C5C5C"
+    },
+    graphLabelColor: {
+        color: "white"
     }
 });

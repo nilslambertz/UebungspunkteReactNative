@@ -4,6 +4,9 @@ export default StyleSheet.create({
     header: {
         backgroundColor: "#D8D8D8"
     },
+    headerTitle: {
+        color: "black"
+    },
     container: {
         backgroundColor: 'white'
     },

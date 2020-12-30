@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import {Button, StyleSheet, View} from 'react-native';
+import React from 'react';
+import {Button, View} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import Main from './Components/Main/Main';

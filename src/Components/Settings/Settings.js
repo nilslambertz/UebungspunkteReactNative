@@ -23,7 +23,8 @@ class Settings extends Component {
     updateHeader = () => {
         this.props.navigation.setOptions({
             headerStyle: [style.header, this.state.theme.header],
-            headerTitleStyle: this.state.theme.headerTitle
+            headerTitleStyle: this.state.theme.headerTitle,
+            headerTintColor: this.state.theme.headerTitle.color
         });
     }
 

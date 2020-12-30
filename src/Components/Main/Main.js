@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, Button} from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import SubjectButton from './SubjectButton';
 import {addSubject, deleteSubject, initialize, getSubjectList, getSettings} from '../../Utils/FileManagement';
 import SubjectPopup from '../Popup/SubjectPopup';

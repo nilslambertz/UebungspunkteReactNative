@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Alert, Switch} from 'react-native';
+import { Text, View, Switch} from 'react-native';
 import style from '../../Style/style';
 
 export default function SettingsItem({id, title, description, value, changeFunction, theme}) {

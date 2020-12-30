@@ -216,7 +216,7 @@ class SubjectScreen extends Component {
                         data={this.data} 
                     />
                     <Line data={this.neededData} smoothing="none" theme={{ stroke: { color: 'red', width: 1 } }} />
-                    <Line data={this.data} smoothing="cubic-spline" theme={{ stroke: { color: '#316CD4', width: 1 }, scatter: { default: { width: 6, height: 6, rx: 6, color: '#316CD4' }}}} />
+                    <Line data={this.data} smoothing="cubic-spline" theme={{ stroke: { color: '#316CD4', width: 1 }, scatter: { default: { width: 6, height: 6, rx: 6, color: '#0987B5' }}}} />
                     </Chart>
                }
                   {

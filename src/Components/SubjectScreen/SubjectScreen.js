@@ -165,7 +165,6 @@ class SubjectScreen extends Component {
 
         let maxPt = (len === 0 ? 10 : this.state.subject.exercises[len-1][1]);
 
-
         return (
             <View style={[style.container, theme.container]}>
                 <SubjectPopup
@@ -196,8 +195,16 @@ class SubjectScreen extends Component {
                     disableTouch={true}
                     disableGestures={true}
                     >
-                    <VerticalAxis tickValues={[25, 50, 75, 100]} />
-                    <HorizontalAxis tickCount={this.data.length} />
+                    <VerticalAxis tickValues={[25, 50, 75, 100]} theme={{
+                        labels: {
+                            label: theme.graphLabelColor
+                        }
+                    }}/>
+                    <HorizontalAxis tickCount={this.data.length} theme={{
+                        labels: {
+                            label: theme.graphLabelColor
+                        }
+                    }}/>
                     <Area 
                         theme={{ gradient: { from : { color: '#FF0000', opacity: 0.3 }, to : { color: '#FF0000' , opacity: 0.2 } } }} 
                         smoothing="none"

@@ -89,16 +89,22 @@ function SubjectPopup({
       }
   
       saveFunction(newTitle, newProzent, newNumber);
-      resetAndClose(true);
+      resetAndClose(true, true);
     }
 
-    function resetAndClose(updated) {
+    function resetAndClose(updated, clearFields) {
         setTitleError("");
-        setNewTitle(updated ? newTitle: currentTitle);
         setProzentError("");
-        setNewProzent(updated ? newProzent : currentProzent);
         setNumberError("");
-        setNewNumber(updated ? newNumber : currentNumber);
+        if(clearFields) {
+            setNewProzent("");
+            setNewTitle("");
+            setNewNumber("");
+        } else {
+            setNewProzent(updated ? newProzent : currentProzent);
+            setNewTitle(updated ? newTitle : currentTitle);
+            setNewNumber(updated ? newNumber : currentNumber);
+        }
         closeFunction();
     }
 

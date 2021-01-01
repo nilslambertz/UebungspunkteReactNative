@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import style from '../../Style/style';
 
 export default function SubjectButton({subject, id, deleteAlert, navigation, theme}) {
